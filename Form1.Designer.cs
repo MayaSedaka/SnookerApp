@@ -63,6 +63,8 @@ namespace snookerFormdemo
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.homePageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pic = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ball)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stick)).BeginInit();
@@ -81,6 +83,7 @@ namespace snookerFormdemo
             ((System.ComponentModel.ISupportInitialize)(this.p3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.p1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pic)).BeginInit();
             this.SuspendLayout();
             // 
             // ball
@@ -363,6 +366,21 @@ namespace snookerFormdemo
             this.homePageToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
             this.homePageToolStripMenuItem.Text = "home page";
             // 
+            // pic
+            // 
+            this.pic.BackColor = System.Drawing.Color.Transparent;
+            this.pic.Image = ((System.Drawing.Image)(resources.GetObject("pic.Image")));
+            this.pic.Location = new System.Drawing.Point(90, 153);
+            this.pic.Name = "pic";
+            this.pic.Size = new System.Drawing.Size(259, 118);
+            this.pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pic.TabIndex = 26;
+            this.pic.TabStop = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -371,6 +389,7 @@ namespace snookerFormdemo
             this.BackgroundImage = global::snookerFormdemo.Properties.Resources.table1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(883, 567);
+            this.Controls.Add(this.pic);
             this.Controls.Add(this.popup);
             this.Controls.Add(this.p1);
             this.Controls.Add(this.p3);
@@ -419,6 +438,7 @@ namespace snookerFormdemo
             ((System.ComponentModel.ISupportInitialize)(this.p3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.p1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -458,6 +478,8 @@ namespace snookerFormdemo
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem homePageToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pic;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
