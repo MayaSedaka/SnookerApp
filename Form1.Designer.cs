@@ -63,8 +63,10 @@ namespace snookerFormdemo
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.homePageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pic = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lbl = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.lbp = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ball)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stick)).BeginInit();
@@ -83,14 +85,13 @@ namespace snookerFormdemo
             ((System.ComponentModel.ISupportInitialize)(this.p3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.p1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pic)).BeginInit();
             this.SuspendLayout();
             // 
             // ball
             // 
             this.ball.BackColor = System.Drawing.Color.Transparent;
             this.ball.Image = ((System.Drawing.Image)(resources.GetObject("ball.Image")));
-            this.ball.Location = new System.Drawing.Point(369, 397);
+            this.ball.Location = new System.Drawing.Point(109, 376);
             this.ball.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball.Name = "ball";
             this.ball.Size = new System.Drawing.Size(37, 34);
@@ -107,7 +108,7 @@ namespace snookerFormdemo
             // 
             this.ball2.BackColor = System.Drawing.Color.Transparent;
             this.ball2.Image = ((System.Drawing.Image)(resources.GetObject("ball2.Image")));
-            this.ball2.Location = new System.Drawing.Point(622, 178);
+            this.ball2.Location = new System.Drawing.Point(594, 238);
             this.ball2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball2.Name = "ball2";
             this.ball2.Size = new System.Drawing.Size(37, 34);
@@ -140,7 +141,7 @@ namespace snookerFormdemo
             // 
             this.ball7.BackColor = System.Drawing.Color.Transparent;
             this.ball7.Image = ((System.Drawing.Image)(resources.GetObject("ball7.Image")));
-            this.ball7.Location = new System.Drawing.Point(705, 102);
+            this.ball7.Location = new System.Drawing.Point(526, 238);
             this.ball7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball7.Name = "ball7";
             this.ball7.Size = new System.Drawing.Size(37, 34);
@@ -152,7 +153,7 @@ namespace snookerFormdemo
             // 
             this.ball4.BackColor = System.Drawing.Color.Transparent;
             this.ball4.Image = ((System.Drawing.Image)(resources.GetObject("ball4.Image")));
-            this.ball4.Location = new System.Drawing.Point(705, 269);
+            this.ball4.Location = new System.Drawing.Point(554, 104);
             this.ball4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball4.Name = "ball4";
             this.ball4.Size = new System.Drawing.Size(37, 34);
@@ -164,7 +165,7 @@ namespace snookerFormdemo
             // 
             this.ball6.BackColor = System.Drawing.Color.Transparent;
             this.ball6.Image = ((System.Drawing.Image)(resources.GetObject("ball6.Image")));
-            this.ball6.Location = new System.Drawing.Point(518, 295);
+            this.ball6.Location = new System.Drawing.Point(526, 289);
             this.ball6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball6.Name = "ball6";
             this.ball6.Size = new System.Drawing.Size(37, 34);
@@ -176,7 +177,7 @@ namespace snookerFormdemo
             // 
             this.ball3.BackColor = System.Drawing.Color.Turquoise;
             this.ball3.Image = ((System.Drawing.Image)(resources.GetObject("ball3.Image")));
-            this.ball3.Location = new System.Drawing.Point(834, 357);
+            this.ball3.Location = new System.Drawing.Point(312, 256);
             this.ball3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball3.Name = "ball3";
             this.ball3.Size = new System.Drawing.Size(37, 34);
@@ -188,7 +189,7 @@ namespace snookerFormdemo
             // 
             this.ball5.BackColor = System.Drawing.Color.Transparent;
             this.ball5.Image = ((System.Drawing.Image)(resources.GetObject("ball5.Image")));
-            this.ball5.Location = new System.Drawing.Point(494, 153);
+            this.ball5.Location = new System.Drawing.Point(380, 151);
             this.ball5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball5.Name = "ball5";
             this.ball5.Size = new System.Drawing.Size(37, 34);
@@ -200,7 +201,7 @@ namespace snookerFormdemo
             // 
             this.ball8.BackColor = System.Drawing.Color.Transparent;
             this.ball8.Image = ((System.Drawing.Image)(resources.GetObject("ball8.Image")));
-            this.ball8.Location = new System.Drawing.Point(799, 192);
+            this.ball8.Location = new System.Drawing.Point(412, 310);
             this.ball8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball8.Name = "ball8";
             this.ball8.Size = new System.Drawing.Size(37, 34);
@@ -246,7 +247,7 @@ namespace snookerFormdemo
             // 
             this.trb1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.trb1.BackColor = System.Drawing.Color.Teal;
-            this.trb1.Location = new System.Drawing.Point(90, 295);
+            this.trb1.Location = new System.Drawing.Point(447, 29);
             this.trb1.Maximum = 80;
             this.trb1.Name = "trb1";
             this.trb1.Size = new System.Drawing.Size(327, 56);
@@ -366,20 +367,28 @@ namespace snookerFormdemo
             this.homePageToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
             this.homePageToolStripMenuItem.Text = "home page";
             // 
-            // pic
+            // lbl
             // 
-            this.pic.BackColor = System.Drawing.Color.Transparent;
-            this.pic.Image = ((System.Drawing.Image)(resources.GetObject("pic.Image")));
-            this.pic.Location = new System.Drawing.Point(90, 153);
-            this.pic.Name = "pic";
-            this.pic.Size = new System.Drawing.Size(259, 118);
-            this.pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pic.TabIndex = 26;
-            this.pic.TabStop = false;
+            this.lbl.AutoSize = true;
+            this.lbl.Location = new System.Drawing.Point(194, 82);
+            this.lbl.Name = "lbl";
+            this.lbl.Size = new System.Drawing.Size(23, 17);
+            this.lbl.TabIndex = 26;
+            this.lbl.Text = "v1";
+            this.lbl.Click += new System.EventHandler(this.lbl_Click);
             // 
-            // timer1
+            // timer2
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // lbp
+            // 
+            this.lbp.AutoSize = true;
+            this.lbp.Location = new System.Drawing.Point(109, 202);
+            this.lbp.Name = "lbp";
+            this.lbp.Size = new System.Drawing.Size(47, 17);
+            this.lbp.TabIndex = 27;
+            this.lbp.Text = "player";
             // 
             // Form1
             // 
@@ -389,7 +398,8 @@ namespace snookerFormdemo
             this.BackgroundImage = global::snookerFormdemo.Properties.Resources.table1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(883, 567);
-            this.Controls.Add(this.pic);
+            this.Controls.Add(this.lbp);
+            this.Controls.Add(this.lbl);
             this.Controls.Add(this.popup);
             this.Controls.Add(this.p1);
             this.Controls.Add(this.p3);
@@ -415,7 +425,6 @@ namespace snookerFormdemo
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
@@ -438,7 +447,6 @@ namespace snookerFormdemo
             ((System.ComponentModel.ISupportInitialize)(this.p3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.p1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -478,8 +486,10 @@ namespace snookerFormdemo
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem newGameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem homePageToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pic;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label lbl;
+        private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Label lbp;
     }
 }
 

@@ -20,3 +20,14 @@ C:\Users\user\Desktop\snookerApp\SnookerApp\obj\Debug\snookerFormdemo.csproj.Gen
 C:\Users\user\Desktop\snookerApp\SnookerApp\obj\Debug\snookerFormdemo.csproj.CoreCompileInputs.cache
 C:\Users\user\Desktop\snookerApp\SnookerApp\obj\Debug\snookerFormdemo.exe
 C:\Users\user\Desktop\snookerApp\SnookerApp\obj\Debug\snookerFormdemo.pdb
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\bin\Debug\snookerFormdemo.exe.config
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\bin\Debug\snookerFormdemo.exe
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\bin\Debug\snookerFormdemo.pdb
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\obj\Debug\snookerFormdemo.csproj.AssemblyReference.cache
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\obj\Debug\snookerFormdemo.Form1.resources
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\obj\Debug\snookerFormdemo.Form2.resources
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\obj\Debug\snookerFormdemo.Properties.Resources.resources
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\obj\Debug\snookerFormdemo.csproj.GenerateResource.cache
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\obj\Debug\snookerFormdemo.csproj.CoreCompileInputs.cache
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\obj\Debug\snookerFormdemo.exe
+C:\Users\Assaf Sedaka\Desktop\Mayas app Billiard\SnookerApp\obj\Debug\snookerFormdemo.pdb

@@ -17,6 +17,7 @@ namespace snookerFormdemo
         bool isPressed = false;
         
         public PictureBox[] arr = new PictureBox[8];
+        public PictureBox[] holes = new PictureBox[6];
         public Ball[] ballArr = new Ball[8];
         Timer[] tmrArr = new Timer[8];
         Ball ballObj = new Ball(2);
@@ -28,10 +29,12 @@ namespace snookerFormdemo
         Ball ball7Obj = new Ball(2);
         Ball ball8Obj = new Ball(2);
         float vel;
-        Image img;
+        Boolean player;//computer-false, person-true
+        Boolean f= false;
         int ang;
         int x, y;
-        Timer timer=new Timer();
+       
+   
         public Point mouseDownLocation;
     
         Point startDownLocation= new Point();
@@ -43,17 +46,12 @@ namespace snookerFormdemo
             InitializeComponent();
 
             generaltmr.Start();
-            // btn.Enabled = false;
-            // stick.Top = ball.Top;
-            // stick.Left = ball.Left - 150;
-            // ballSpeed = 1;
-            // ball2Speed = -1;
 
-           //
-           timer1.Start();
-   
-            //             pic.Image.RotateFlip(RotateFlipType.Rotate270FlipXY);
-           
+           // timer2.Start();
+            timer1.Start();
+            trb.Hide();
+            trb1.Hide();
+            player = true;
             k = 0.002;
             left = 60;
             right = 1500;
@@ -68,7 +66,12 @@ namespace snookerFormdemo
             ballArr[6] = ball7Obj;
             ballArr[7] = ball8Obj;
 
-
+            holes[0] = p1;
+            holes[1] = p2;
+            holes[2] = p3;
+            holes[3] = p4;
+            holes[4] = p5;
+            holes[5] = p6;
 
             arr[0] = ball;
             arr[1] = ball2;
@@ -90,13 +93,7 @@ namespace snookerFormdemo
             tmrArr[7] = ball8tmr;
 
         }
-        private void TimerCallback(object sender, EventArgs e)
-        {
-            x += 10;
-            y += 10;
-            this.Invalidate();
-            return;
-        }
+     
        
         public void Collision(Ball ball1, int i, Ball ball2, int j)
         {
@@ -134,22 +131,36 @@ namespace snookerFormdemo
             double s = Math.Sin(Math.PI / 2 - angle);
             double c = Math.Cos(Math.PI / 2 - angle);
 
-            double vx1 = b1.Delta_x() * cos - b1.Delta_x() * sin;
-            double vy1 = b1.Delta_y() * cos - b1.Delta_y() * sin;
-            double vx2 = b2.Delta_x() * c - b2.Delta_x() * s;
-            double vy2 = b2.Delta_y() * c - b2.Delta_y() * s;
+            double vx1 = b1.Delta_x() * cos + b1.Delta_y() * sin;
+            double vy1 = b1.Delta_y() * cos - b1.Delta_x() * sin;
+           // double vx2 = b2.Delta_x() * c - b2.Delta_x() * s;
+            double vx2 = b2.Delta_x() * cos + b2.Delta_y() * sin;
+           // double vy2 = b2.Delta_y() * c - b2.Delta_y() * s;
+            double vy2 = b2.Delta_y() * cos - b2.Delta_x() * sin;
             //double vx2 = b2.Delta_x() * Math.Cos(0.5 * Math.PI - angle) - b2.Delta_x() * Math.Sin(0.5 * Math.PI - angle);
             //double vy2 = b2.Delta_y() * Math.Cos(0.5*Math.PI -angle) - b2.Delta_y() * Math.Sin(0.5 * Math.PI - angle);
-            double vx1final = vx2;
-            double vx2final = vx1;
+            double vx1final, vx2final;
+            ///* if (vx1 != 0 && vx2 != 0)
+            //{
+            vx1final =vx2;//(vx1 / Math.Abs(vx1)) * vx2;
+    
+                //vx2final = (vx1final / Math.Abs(vx1final)) * vx1;//-(vx2 / Math.Abs(vx2)) * vx1;
+        
+                vx2final = vx1;
+          //  }
+           // else
+            //{
+              //  vx1final = vx2;
+              //  vx2final = -vx1;
+            //}
             double vy1final = vy1;
             double vy2final = vy2;
-            //double vx1f = vx1final * Math.Cos(angle) - vx1final * Math.Sin(angle);
-            double vx1f = vx1final * c - vx1final * s;
-            //double vy1f = vy1final * Math.Cos(angle) - vy1final * Math.Sin(angle);
-            double vy1f = vy1final * c - vy1final * s;
-            double vx2f = vx2final * Math.Cos(angle) - vx2final * Math.Sin(angle);
-            double vy2f = vy2final * Math.Cos(angle) - vy2final * Math.Sin(angle);
+           double vx1f = vx1final * cos- vy1final * sin;
+           // double vx1f = vx1final * c - vx1final * s;
+            double vy1f = vy1final *cos + vx1final *sin;
+            //double vy1f = vy1final * c - vy1final * s;
+            double vx2f = vx2final * cos - vy2final * sin;
+            double vy2f = vy2final * cos + vx2final * sin;
 
 
             // arr[i].Left -=(int) vx1f / 20;
@@ -162,7 +173,7 @@ namespace snookerFormdemo
             if (vx1f != 0)
             {
                 if (vx1f < 0)
-                    b1.angle = Math.PI;
+                    b1.angle += Math.PI;
                 else
 
                     b1.angle = Math.Atan(vy1f / vx1f);
@@ -173,19 +184,19 @@ namespace snookerFormdemo
             // b1.angle = Math.Atan2(vx2f ,vx1f);
             // b2.angle = Math.Atan2(vy2f, vx2f);
 
-            SoundPlayer so= new SoundPlayer(@"C:\new\11.WAV");
+          //  SoundPlayer so= new SoundPlayer(@"C:\new\11.WAV");
             
-            so.Play();
+          //  so.Play();
             if (vx2f != 0)
             {
                 if (vx2f < 0)
-                    b2.angle = Math.PI;
+                    b2.angle += Math.PI;
                 else
 
                     b2.angle = Math.Atan(vy2f / vx2f);
             }
             else
-                b2.angle = Math.PI / 2;//Math.PI / 2;
+                b2.angle = Math.PI / 2;
         }
         public int FindBallIndex(Ball b)
         {
@@ -219,10 +230,11 @@ namespace snookerFormdemo
             // double t =  dis * 2 / ballObj.v;
             // balltmr.Interval =(int)( Math.Abs( t));
 
-            
 
+           ;
             ball.Left += ballObj.Delta_x() / 20;
             ball.Top -= ballObj.Delta_y() / 20;
+
           //  while (Math.Abs(ballObj.v) > 0.02)
             //{
               //  if (ballObj.v < 0) 
@@ -268,18 +280,32 @@ namespace snookerFormdemo
         }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-
+            if (ball3Obj.v == 0 ||!f) { 
             // Create pen.
             Pen blackPen = new Pen(Color.Black, 3);
-
+            f=true;
             // Create points that define line.
             PointF point1 = new PointF((float)(ball3.Left+13), (float)(ball3.Top+13));
             PointF point2 = new PointF((float)(eMouseX), (float)(eMouseY));
-       
-            
                 // Draw line to screen.
                 e.Graphics.DrawLine(blackPen, point1, point2);
+                if (isPressed)
+                {
+                    ball3Obj.v = Math.Sqrt(Math.Pow((eMouseX - ball3.Left + 13), 2) + Math.Pow((eMouseY - ball3.Top + 13), 2)) / 1.25;
 
+                    ball3Obj.angle = -Math.Atan2((eMouseY - ball3.Top + 13), (eMouseX - ball3.Left + 13));//-2.5*Math.PI);
+                                                                                                          // Console.WriteLine(ball3Obj.angle);
+                    ball3tmr.Start();
+
+                }
+            }
+     
+
+      
+
+            
+         //Console.WriteLine(ball3Obj.v);
+                //isGraphics=false;
             //Graphics g = e.Graphics;
             //Pen pen = new Pen(Color.Black);
             // while (isPressed)
@@ -318,7 +344,7 @@ namespace snookerFormdemo
               // e.Graphics.DrawImage(bit_map, -bit_map.Width/2, -bit_map.Height/2 );
               e.Graphics.DrawImage(bit_map, 40, 40);*/
             // Invalidate();
-            Refresh();
+         
         }
         private void Form1_MouseMove(object sender, MouseEventArgs e )
         {
@@ -384,51 +410,8 @@ namespace snookerFormdemo
 
             }
 
-        public static Bitmap RotateImage(Image image, PointF offset, float angle)
-        {
-            if (image == null)
-                throw new ArgumentNullException("image");
-
-            //create a new empty bitmap to hold rotated image
-            Bitmap rotatedBmp = new Bitmap(image.Width, image.Height);
-            rotatedBmp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            //make a graphics object from the empty bitmap
-            Graphics g = Graphics.FromImage(rotatedBmp);
-
-            //Put the rotation point in the center of the image
-            g.TranslateTransform(offset.X, offset.Y);
-
-            //rotate the image
-            g.RotateTransform(angle);
-
-            //move the image back
-            g.TranslateTransform(-offset.X, -offset.Y);
-
-            //draw passed in image onto graphics object
-            g.DrawImage(image, new PointF(0, 0));
-
-            return rotatedBmp;
-        }
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            //Load an image in from a file
-
-            Image image = new Bitmap(@"C:\new\tranew.png");
-            //Set our picture box to that image
-            pic.Image = (Bitmap)image.Clone();
-
-            //Store our old image so we can delete it
-            Image oldImage = pic.Image;
-            //Pass in our original image and return a new image rotated 35 degrees right
-            PointF   p = new PointF(0,0);
-             int an = trb.Value;
-            pic.Image = RotateImage(image,p,35);
-            if (oldImage != null)
-            {
-                oldImage.Dispose();
-            }
-        }
+      
+        
 
       
 
@@ -440,45 +423,18 @@ namespace snookerFormdemo
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            img = Image.FromFile(@"C:\new\tranew.png");
+          //  img = Image.FromFile(@"C:\new\tranew.png");
 
         }
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
-          
-            
+ 
             isPressed = false;
           
         }
       
         
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode){
-
-                case Keys.Right:
-                    //stick.Top++;
-                    stick.Left++;
-                   
-                    break;
-                case Keys.Left:
-                   // stick.Top--;
-                    stick.Left--;
-                    break;
-                case Keys.Down:
-                    stick.Top++;
-                    break;
-                case Keys.Up:
-                    stick.Top--;
-                    break;
-               // case Keys.Enter:
-                 //   cb.;
-                  //  break;
-
-
-            }
-        }
 
         private void ball2tmr_Tick(object sender, EventArgs e)
         {
@@ -536,11 +492,11 @@ namespace snookerFormdemo
                     //Console.WriteLine(ball3Obj.angle / Math.PI * 180);
                 }
             }
-
+          lbl.Text = "" + ball3Obj.v;
             ball3.Left += ball3Obj.Delta_x() / 20;
             ball3.Top -= ball3Obj.Delta_y() / 20;
             //while (ball3Obj.v > 0)
-              // ball3Obj.v -= Math.Abs(k/1000);
+           //   ball3Obj.v -= Math.Abs(9.81*k/1000);
 
 
             for (int i = 0; i < 8; i++)
@@ -555,6 +511,11 @@ namespace snookerFormdemo
                         tmrArr[i].Start();
                     }
                 }
+            }
+            if (ball3Obj.v <= 5)
+            {
+                player = false;
+                timer2.Start();
             }
 
         }
@@ -669,6 +630,8 @@ namespace snookerFormdemo
 
         }
 
+      
+
         private void ball6tmr_Tick(object sender, EventArgs e)
         {
             if (ball6.Left < left || ball6.Right > right || ball6.Top < top || ball6.Bottom > bottom)
@@ -706,7 +669,10 @@ namespace snookerFormdemo
             }
         }
 
-       
+        private void lbl_Click(object sender, EventArgs e)
+        {
+
+        }
 
         private void ball7tmr_Tick(object sender, EventArgs e)
         {
@@ -787,43 +753,42 @@ namespace snookerFormdemo
 
         }
 
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            int dis = 0, temp=0, b=0, h=0;
+            for(int i=0; i<8; i++)
+            {
+                for (int j = 0; j < 6;j++) {
+                    if (i != 2)
+                    {
+                         temp= holes[j].Left-arr[i].Left;
+                        if (temp > dis)
+                        {
+                            b = i;
+                            h = j;
+                        }
+                    }
+                }
+
+               
+            }
+
+            ballArr[b].v = 70;
+            ballArr[b].angle = Math.Atan2((arr[b].Top - holes[h].Top), (arr[b].Left - holes[h].Left));
+            tmrArr[b].Start();
+            timer2.Stop();
+        }
+
         private void generaltmr_Tick(object sender, EventArgs e)
         {
 
-
-           
-
-           /* for (int i = 0; i <= 7; i++)
-            { 
-                for (int j = 1; j <= 7; j++)
-                {
-                    if (arr[i].Bounds.IntersectsWith(arr[j].Bounds))//|| ball.Bounds.IntersectsWith(ball2.Bounds))
-                    {
-                        // ballSpeed = -ballSpeed;
-                        // ball2Speed = -ball2Speed;
-                        // ball2tmr.Interval = balltmr.Interval;
-                        // balltmr.Interval = ball2tmr.Interval;
-                        /////////////////////////////////////////////////////////////////////////////
-                        temp_x = ballArr[i].Delta_x();
-                        temp_y = ballArr[i].Delta_y();
-                        ballArr[i].v = Math.Sqrt(Math.Pow(ballArr[j].Delta_x(), 2) + Math.Pow(ballArr[j].Delta_y(), 2));
-                        if (ballArr[i].Delta_x() != 0)
-                            ballArr[i].angle = Math.Tan(ballArr[i].Delta_y() / ballArr[i].Delta_x());
-                        else
-                            ballArr[i].angle = 0;
-                        ballArr[j].v = Math.Sqrt(Math.Pow(temp_x, 2) + Math.Pow(temp_y, 2));
-                        if (ballArr[j].Delta_x() != 0)
-                            ballArr[j].angle = Math.Tan(ballArr[j].Delta_y() / ballArr[j].Delta_x());
-                        else
-                            ballArr[j].angle = 0;
-
-                        tmrArr[j].Start();
-
-
-                    } 
-                  
-                }
-            }*/
+            this.Invalidate();
+            if (!player)
+            {
+               
+                lbp.Text = "computer";
+                timer2.Start();
+            }
         }
     }
 }
