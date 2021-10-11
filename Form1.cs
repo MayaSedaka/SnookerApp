@@ -4,20 +4,18 @@ using System.Drawing.Drawing2D;
 using System.Media;
 using System.Windows.Forms;
 
+
+
 namespace snookerFormdemo
 {
     public partial class Form1 : Form
     {
-        int temp_x, temp_y;
-        int lang=0;
+     
         float eMouseX, eMouseY;
         double k;
         int left, right, top, bottom;
         bool isPressed = false;
-        int ball1mass = 1;
-        int ball2mass = 1;
-        int ballSpeed;
-        int ball2Speed;
+        
         public PictureBox[] arr = new PictureBox[8];
         public Ball[] ballArr = new Ball[8];
         Timer[] tmrArr = new Timer[8];
@@ -34,11 +32,14 @@ namespace snookerFormdemo
         int ang;
         int x, y;
         Timer timer=new Timer();
+        public Point mouseDownLocation;
+    
+        Point startDownLocation= new Point();
+        static PaintEventArgs ev;
         public Form1()
         {
 
-            var formPopup = new Form();
-            formPopup.Show(this);
+          
             InitializeComponent();
 
             generaltmr.Start();
@@ -47,11 +48,12 @@ namespace snookerFormdemo
             // stick.Left = ball.Left - 150;
             // ballSpeed = 1;
             // ball2Speed = -1;
-          
-            timer.Enabled = true;
-            timer.Interval = 100;  /* 100 millisec */
-            timer.Tick += new EventHandler(TimerCallback);
 
+           //
+           timer1.Start();
+   
+            //             pic.Image.RotateFlip(RotateFlipType.Rotate270FlipXY);
+           
             k = 0.002;
             left = 60;
             right = 1500;
@@ -95,13 +97,7 @@ namespace snookerFormdemo
             this.Invalidate();
             return;
         }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            g.FillRectangle(Brushes.Red, x, y, 100, 100);
-            base.OnPaint(e);
-        }
+       
         public void Collision(Ball ball1, int i, Ball ball2, int j)
         {
             double vcollision_x = arr[i].Left - arr[j].Left;
@@ -148,8 +144,10 @@ namespace snookerFormdemo
             double vx2final = vx1;
             double vy1final = vy1;
             double vy2final = vy2;
-            double vx1f = vx1final * Math.Cos(angle) - vx1final * Math.Sin(angle);
-            double vy1f = vy1final * Math.Cos(angle) - vy1final * Math.Sin(angle);
+            //double vx1f = vx1final * Math.Cos(angle) - vx1final * Math.Sin(angle);
+            double vx1f = vx1final * c - vx1final * s;
+            //double vy1f = vy1final * Math.Cos(angle) - vy1final * Math.Sin(angle);
+            double vy1f = vy1final * c - vy1final * s;
             double vx2f = vx2final * Math.Cos(angle) - vx2final * Math.Sin(angle);
             double vy2f = vy2final * Math.Cos(angle) - vy2final * Math.Sin(angle);
 
@@ -248,7 +246,7 @@ namespace snookerFormdemo
                     //arr[i].Location = new Point(0, 0);
                    
                    arr[i].BackColor = Color.Transparent;
-                   // Collision2(ballObj, 0, ballArr[i], i);
+                    Collision2(ballObj, 0, ballArr[i], i);
                    // Collision(ballObj, 0, ballArr[i], i);
 
                     tmrArr[i].Start();
@@ -264,34 +262,94 @@ namespace snookerFormdemo
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             isPressed = true;
+       
+            startDownLocation=e.Location;
          
         }
-
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        private void Form1_Paint(object sender, PaintEventArgs e)
         {
+
+            // Create pen.
+            Pen blackPen = new Pen(Color.Black, 3);
+
+            // Create points that define line.
+            PointF point1 = new PointF((float)(ball3.Left+13), (float)(ball3.Top+13));
+            PointF point2 = new PointF((float)(eMouseX), (float)(eMouseY));
+       
+            
+                // Draw line to screen.
+                e.Graphics.DrawLine(blackPen, point1, point2);
+
+            //Graphics g = e.Graphics;
+            //Pen pen = new Pen(Color.Black);
+            // while (isPressed)
+            //{
+            /*  int nw = 0;
+              int nh = 0;
+              Bitmap btm = new Bitmap(img.Width, img.Height);
+              if (ang <= 90)
+              {
+                  nw = (int)(btm.Width * Math.Cos(2 * Math.PI * ang / 360) + btm.Height * Math.Sin(2 * Math.PI * ang / 360));
+                  nh = (int)(btm.Height * Math.Cos(2 * Math.PI * ang / 360) + btm.Width * Math.Sin(2 * Math.PI * ang / 360));
+              }
+              else if (ang > 90 && ang <= 180)
+              {
+                  nw = (int)(btm.Width * -Math.Cos(2 * Math.PI * ang / 360) + btm.Height * Math.Sin(2 * Math.PI * ang / 360));
+                  nh = (int)(btm.Height * -Math.Cos(2 * Math.PI * ang / 360) + btm.Width * Math.Sin(2 * Math.PI * ang / 360));
+              }
+              else if (ang > 180 && ang <= 270)
+              {
+                  nw = (int)(btm.Width * -Math.Cos(2 * Math.PI * ang / 360) + btm.Height * -Math.Sin(2 * Math.PI * ang / 360));
+                  nh = (int)(btm.Height * -Math.Cos(2 * Math.PI * ang / 360) + btm.Width * -Math.Sin(2 * Math.PI * ang / 360));
+              }
+              else if (ang > 270 && ang <= 360)
+              {
+                  nw = (int)(btm.Width * Math.Cos(2 * Math.PI * ang / 360) + btm.Height * -Math.Sin(2 * Math.PI * ang / 360));
+                  nh = (int)(btm.Height * Math.Cos(2 * Math.PI * ang / 360) + btm.Width * -Math.Sin(2 * Math.PI * ang / 360));
+              }
+              Bitmap bit_map = new Bitmap(nw, nh);
+              Graphics gfx = Graphics.FromImage(bit_map);
+              gfx.TranslateTransform(nw / 2, nh / 2);
+              gfx.RotateTransform(ang);
+              gfx.TranslateTransform(-img.Width / 2, -img.Height / 2);
+              gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
+              gfx.DrawImage(img, 0, 0);
+              e.Graphics.TranslateTransform(this.Width / 2, this.Height / 2);
+              // e.Graphics.DrawImage(bit_map, -bit_map.Width/2, -bit_map.Height/2 );
+              e.Graphics.DrawImage(bit_map, 40, 40);*/
+            // Invalidate();
+            Refresh();
+        }
+        private void Form1_MouseMove(object sender, MouseEventArgs e )
+        {
+
+       
+                
+            
 
             eMouseX = e.X;
             eMouseY = e.Y;
-            vel = trb1.Value;
-           // stick.Left = (int)eMouseX;
-            //stick.Top = (int)eMouseY;
+      
 
             if (hit.Checked)
+               
             {
-               // ball3Obj.v = vel;
-                //ball3Obj.angle = -ToRadians(trb.Value);
-               // ball3tmr.Start();
-              for(int i=0; i<8; i++)
-                {
-                   if (stick.Bounds.IntersectsWith(arr[i].Bounds))
-                    {
-                        ballArr[i].v = vel;//60.0;
+               // pic.Left = (int)eMouseX;
+               //pic.Top = (int)eMouseY;
+                 ball3Obj.v = vel;
+                 ball3Obj.angle = -ToRadians(trb.Value);
+                 ball3tmr.Start();
+              //  for (int i=0; i<8; i++)
+               // {
+                 //  if (stick.Bounds.IntersectsWith(arr[i].Bounds))
+                  //  {
+                    //    ballArr[i].v = vel;//60.0;
 
-                        ballArr[i].angle = -ToRadians(trb.Value);//(trb.Value+90);//180*Math.PI;//(trb.Value * Math.PI / 180 - Math.PI / 2) % 180;//360*2*Math.PI;//0.25*Math.PI;
+                     //   ballArr[i].angle = -ToRadians(trb.Value);//(trb.Value+90);//180*Math.PI;//(trb.Value * Math.PI / 180 - Math.PI / 2) % 180;//360*2*Math.PI;//0.25*Math.PI;
                                                                //Console.WriteLine(ToRadians(90));
-                        tmrArr[i].Start();
-                    }
-                }
+                     //   tmrArr[i].Start();
+                  //  }
+              //  }
                 
             }
 
@@ -300,8 +358,7 @@ namespace snookerFormdemo
          
             
                     vel =trb1.Value;
-                    stick.Left = e.X;
-                     stick.Top = e.Y;
+                   
             
                 // for (int i = 0; i < 8; i++)
                 // {
@@ -323,10 +380,59 @@ namespace snookerFormdemo
                 //  }
 
             }
+          //  Refresh();
 
             }
 
-        
+        public static Bitmap RotateImage(Image image, PointF offset, float angle)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+
+            //create a new empty bitmap to hold rotated image
+            Bitmap rotatedBmp = new Bitmap(image.Width, image.Height);
+            rotatedBmp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            //make a graphics object from the empty bitmap
+            Graphics g = Graphics.FromImage(rotatedBmp);
+
+            //Put the rotation point in the center of the image
+            g.TranslateTransform(offset.X, offset.Y);
+
+            //rotate the image
+            g.RotateTransform(angle);
+
+            //move the image back
+            g.TranslateTransform(-offset.X, -offset.Y);
+
+            //draw passed in image onto graphics object
+            g.DrawImage(image, new PointF(0, 0));
+
+            return rotatedBmp;
+        }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //Load an image in from a file
+
+            Image image = new Bitmap(@"C:\new\tranew.png");
+            //Set our picture box to that image
+            pic.Image = (Bitmap)image.Clone();
+
+            //Store our old image so we can delete it
+            Image oldImage = pic.Image;
+            //Pass in our original image and return a new image rotated 35 degrees right
+            PointF   p = new PointF(0,0);
+             int an = trb.Value;
+            pic.Image = RotateImage(image,p,35);
+            if (oldImage != null)
+            {
+                oldImage.Dispose();
+            }
+        }
+
+      
+
+
         private void drtmr_Tick(object sender, EventArgs e)
         {
             
@@ -339,50 +445,12 @@ namespace snookerFormdemo
         }
         private void Form1_MouseUp(object sender, MouseEventArgs e)
         {
+          
+            
             isPressed = false;
           
         }
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            //Graphics g = e.Graphics;
-            //Pen pen = new Pen(Color.Black);
-            // while (isPressed)
-            //{
-            int nw = 0;
-            int nh = 0;
-            Bitmap btm = new Bitmap(img.Width, img.Height);
-            if (ang <= 90)
-            {
-                nw = (int)(btm.Width * Math.Cos(2 * Math.PI * ang / 360) + btm.Height * Math.Sin(2 * Math.PI * ang / 360));
-                nh = (int)(btm.Height * Math.Cos(2 * Math.PI * ang / 360) + btm.Width * Math.Sin(2 * Math.PI * ang / 360));
-            }
-            else if(ang>90 && ang <= 180)
-            {
-                nw = (int)(btm.Width * -Math.Cos(2 * Math.PI * ang / 360) + btm.Height * Math.Sin(2 * Math.PI * ang / 360));
-                nh = (int)(btm.Height * -Math.Cos(2 * Math.PI * ang / 360) + btm.Width * Math.Sin(2 * Math.PI * ang / 360));
-            }
-            else if (ang > 180 && ang <= 270)
-            {
-                nw = (int)(btm.Width * -Math.Cos(2 * Math.PI * ang / 360) + btm.Height * -Math.Sin(2 * Math.PI * ang / 360));
-                nh = (int)(btm.Height * -Math.Cos(2 * Math.PI * ang / 360) + btm.Width * -Math.Sin(2 * Math.PI * ang / 360));
-            }
-            else if (ang > 270 && ang <= 360)
-            {
-                nw = (int)(btm.Width * Math.Cos(2 * Math.PI * ang / 360) + btm.Height * -Math.Sin(2 * Math.PI * ang / 360));
-                nh = (int)(btm.Height * Math.Cos(2 * Math.PI * ang / 360) + btm.Width * -Math.Sin(2 * Math.PI * ang / 360));
-            }
-            Bitmap bit_map = new Bitmap(nw, nh);
-            Graphics gfx = Graphics.FromImage(bit_map);
-            gfx.TranslateTransform(nw / 2, nh / 2);
-            gfx.RotateTransform(ang);
-            gfx.TranslateTransform(-img.Width / 2, -img.Height / 2);
-            gfx.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            gfx.DrawImage(img, 0, 0);
-            e.Graphics.TranslateTransform(this.Width / 2, this.Height / 2);
-            e.Graphics.DrawImage(bit_map, -bit_map.Width/2, -bit_map.Height/2 );
-
-          
-        }
+      
         
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -452,7 +520,7 @@ namespace snookerFormdemo
 
         private void ball3tmr_Tick(object sender, EventArgs e)
         {
-            Console.WriteLine(ball3Obj.angle / Math.PI * 180);
+           // Console.WriteLine(ball3Obj.angle / Math.PI * 180);
             if (ball3.Left < left || ball3.Right > right || ball3.Top < top || ball3.Bottom > bottom)
             {
 
@@ -465,14 +533,14 @@ namespace snookerFormdemo
                 {
                     ball3Obj.v = ball3Obj.v * -1;
                     ball3Obj.angle =( -0.5 * Math.PI +ball3Obj.angle);
-                    Console.WriteLine(ball3Obj.angle / Math.PI * 180);
+                    //Console.WriteLine(ball3Obj.angle / Math.PI * 180);
                 }
             }
 
             ball3.Left += ball3Obj.Delta_x() / 20;
             ball3.Top -= ball3Obj.Delta_y() / 20;
-           /// while (ball3Obj.v > 0)
-              //  ball3Obj.v -= Math.Abs(9.81  * k);
+            //while (ball3Obj.v > 0)
+              // ball3Obj.v -= Math.Abs(k/1000);
 
 
             for (int i = 0; i < 8; i++)
@@ -593,6 +661,8 @@ namespace snookerFormdemo
             contextMenuStrip1.Show(popup, 0, 0);
           
         }
+
+      
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
