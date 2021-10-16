@@ -33,8 +33,8 @@ namespace snookerFormdemo
         Boolean f= false;
         int ang;
         int x, y;
-       
-   
+        SoundPlayer so = new SoundPlayer(@"C:\new\sound2.WAV");
+
         public Point mouseDownLocation;
     
         Point startDownLocation= new Point();
@@ -121,6 +121,7 @@ namespace snookerFormdemo
 
         public void Collision2(Ball b1, int i, Ball b2, int j)
         {
+            
             int dx = arr[j].Left - arr[i].Left;
             int dy = arr[j].Top - arr[i].Top;
             double dist = Math.Sqrt(dx * dx + dy * dy);
@@ -184,9 +185,7 @@ namespace snookerFormdemo
             // b1.angle = Math.Atan2(vx2f ,vx1f);
             // b2.angle = Math.Atan2(vy2f, vx2f);
 
-          //  SoundPlayer so= new SoundPlayer(@"C:\new\11.WAV");
-            
-          //  so.Play();
+         
             if (vx2f != 0)
             {
                 if (vx2f < 0)
@@ -276,6 +275,7 @@ namespace snookerFormdemo
                     //arr[i].Location = new Point(0, 0);
                    
                    arr[i].BackColor = Color.Transparent;
+                    so.Play();
                     Collision2(ballObj, 0, ballArr[i], i);
                    // Collision(ballObj, 0, ballArr[i], i);
 
@@ -499,6 +499,7 @@ namespace snookerFormdemo
                 {
                     if (ball2.Bounds.IntersectsWith(arr[i].Bounds))
                     {
+                        so.Play();
                         Collision2(ball2Obj, 1, ballArr[i], i);
                        // Collision(ball2Obj, 1, ballArr[i], i);
 
@@ -558,6 +559,9 @@ namespace snookerFormdemo
                 {
                     if (ball3.Bounds.IntersectsWith(arr[i].Bounds))
                     {
+                        
+
+                        so.Play();
                         Collision2(ball3Obj, 2, ballArr[i], i);
                         //Collision(ball3Obj, 2, ballArr[i], i);
 
@@ -619,6 +623,7 @@ namespace snookerFormdemo
                 {
                     if (ball4.Bounds.IntersectsWith(arr[i].Bounds))
                     {
+                        so.Play();
                         Collision2(ball4Obj, 3, ballArr[i], i);
                         //Collision(ball4Obj, 3, ballArr[i], i);
                         tmrArr[i].Start();
@@ -672,6 +677,7 @@ namespace snookerFormdemo
                 {
                     if (ball5.Bounds.IntersectsWith(arr[i].Bounds))
                     {
+                        so.Play();
                         Collision2(ball5Obj, 4, ballArr[i], i);
 
                        // Collision(ball5Obj, 4, ballArr[i], i);
@@ -765,6 +771,7 @@ namespace snookerFormdemo
                 {
                     if (ball6.Bounds.IntersectsWith(arr[i].Bounds))
                     {
+                        so.Play();
                         Collision2(ball6Obj, 5, ballArr[i], i);
                         //Collision(ball6Obj, 5, ballArr[i], i);
 
@@ -824,6 +831,7 @@ namespace snookerFormdemo
                 {
                     if (ball7.Bounds.IntersectsWith(arr[i].Bounds))
                     {
+                        so.Play();
                         Collision2(ball7Obj, 6, ballArr[i], i);
                        // Collision(ball7Obj, 6, ballArr[i], i);
 
@@ -878,6 +886,7 @@ namespace snookerFormdemo
                 {
                     if (ball8.Bounds.IntersectsWith(arr[i].Bounds))
                     {
+                        so.Play();
                         Collision2(ball8Obj, 7, ballArr[i], i);
                         //  Collision(ball8Obj, 7, ballArr[i], i);
 

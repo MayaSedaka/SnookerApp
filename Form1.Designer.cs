@@ -91,7 +91,7 @@ namespace snookerFormdemo
             // 
             this.ball.BackColor = System.Drawing.Color.Transparent;
             this.ball.Image = ((System.Drawing.Image)(resources.GetObject("ball.Image")));
-            this.ball.Location = new System.Drawing.Point(572, 144);
+            this.ball.Location = new System.Drawing.Point(518, 104);
             this.ball.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball.Name = "ball";
             this.ball.Size = new System.Drawing.Size(37, 34);
@@ -141,7 +141,7 @@ namespace snookerFormdemo
             // 
             this.ball7.BackColor = System.Drawing.Color.Transparent;
             this.ball7.Image = ((System.Drawing.Image)(resources.GetObject("ball7.Image")));
-            this.ball7.Location = new System.Drawing.Point(494, 336);
+            this.ball7.Location = new System.Drawing.Point(369, 337);
             this.ball7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball7.Name = "ball7";
             this.ball7.Size = new System.Drawing.Size(37, 34);
@@ -153,7 +153,7 @@ namespace snookerFormdemo
             // 
             this.ball4.BackColor = System.Drawing.Color.Transparent;
             this.ball4.Image = ((System.Drawing.Image)(resources.GetObject("ball4.Image")));
-            this.ball4.Location = new System.Drawing.Point(572, 306);
+            this.ball4.Location = new System.Drawing.Point(752, 313);
             this.ball4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball4.Name = "ball4";
             this.ball4.Size = new System.Drawing.Size(37, 34);
@@ -165,7 +165,7 @@ namespace snookerFormdemo
             // 
             this.ball6.BackColor = System.Drawing.Color.Transparent;
             this.ball6.Image = ((System.Drawing.Image)(resources.GetObject("ball6.Image")));
-            this.ball6.Location = new System.Drawing.Point(572, 381);
+            this.ball6.Location = new System.Drawing.Point(544, 408);
             this.ball6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball6.Name = "ball6";
             this.ball6.Size = new System.Drawing.Size(37, 34);
@@ -189,7 +189,7 @@ namespace snookerFormdemo
             // 
             this.ball5.BackColor = System.Drawing.Color.Transparent;
             this.ball5.Image = ((System.Drawing.Image)(resources.GetObject("ball5.Image")));
-            this.ball5.Location = new System.Drawing.Point(572, 226);
+            this.ball5.Location = new System.Drawing.Point(752, 185);
             this.ball5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball5.Name = "ball5";
             this.ball5.Size = new System.Drawing.Size(37, 34);
@@ -201,7 +201,7 @@ namespace snookerFormdemo
             // 
             this.ball8.BackColor = System.Drawing.Color.Transparent;
             this.ball8.Image = ((System.Drawing.Image)(resources.GetObject("ball8.Image")));
-            this.ball8.Location = new System.Drawing.Point(494, 258);
+            this.ball8.Location = new System.Drawing.Point(616, 313);
             this.ball8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball8.Name = "ball8";
             this.ball8.Size = new System.Drawing.Size(37, 34);
