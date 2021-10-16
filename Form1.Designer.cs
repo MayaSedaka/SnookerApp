@@ -91,7 +91,7 @@ namespace snookerFormdemo
             // 
             this.ball.BackColor = System.Drawing.Color.Transparent;
             this.ball.Image = ((System.Drawing.Image)(resources.GetObject("ball.Image")));
-            this.ball.Location = new System.Drawing.Point(109, 376);
+            this.ball.Location = new System.Drawing.Point(572, 144);
             this.ball.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball.Name = "ball";
             this.ball.Size = new System.Drawing.Size(37, 34);
@@ -101,14 +101,14 @@ namespace snookerFormdemo
             // 
             // balltmr
             // 
-            this.balltmr.Interval = 20;
+            this.balltmr.Interval = 10;
             this.balltmr.Tick += new System.EventHandler(this.balltmr_Tick);
             // 
             // ball2
             // 
             this.ball2.BackColor = System.Drawing.Color.Transparent;
             this.ball2.Image = ((System.Drawing.Image)(resources.GetObject("ball2.Image")));
-            this.ball2.Location = new System.Drawing.Point(594, 238);
+            this.ball2.Location = new System.Drawing.Point(494, 185);
             this.ball2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball2.Name = "ball2";
             this.ball2.Size = new System.Drawing.Size(37, 34);
@@ -118,7 +118,7 @@ namespace snookerFormdemo
             // 
             // ball2tmr
             // 
-            this.ball2tmr.Interval = 20;
+            this.ball2tmr.Interval = 10;
             this.ball2tmr.Tick += new System.EventHandler(this.ball2tmr_Tick);
             // 
             // stick
@@ -141,7 +141,7 @@ namespace snookerFormdemo
             // 
             this.ball7.BackColor = System.Drawing.Color.Transparent;
             this.ball7.Image = ((System.Drawing.Image)(resources.GetObject("ball7.Image")));
-            this.ball7.Location = new System.Drawing.Point(526, 238);
+            this.ball7.Location = new System.Drawing.Point(494, 336);
             this.ball7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball7.Name = "ball7";
             this.ball7.Size = new System.Drawing.Size(37, 34);
@@ -153,7 +153,7 @@ namespace snookerFormdemo
             // 
             this.ball4.BackColor = System.Drawing.Color.Transparent;
             this.ball4.Image = ((System.Drawing.Image)(resources.GetObject("ball4.Image")));
-            this.ball4.Location = new System.Drawing.Point(554, 104);
+            this.ball4.Location = new System.Drawing.Point(572, 306);
             this.ball4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball4.Name = "ball4";
             this.ball4.Size = new System.Drawing.Size(37, 34);
@@ -165,7 +165,7 @@ namespace snookerFormdemo
             // 
             this.ball6.BackColor = System.Drawing.Color.Transparent;
             this.ball6.Image = ((System.Drawing.Image)(resources.GetObject("ball6.Image")));
-            this.ball6.Location = new System.Drawing.Point(526, 289);
+            this.ball6.Location = new System.Drawing.Point(572, 381);
             this.ball6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball6.Name = "ball6";
             this.ball6.Size = new System.Drawing.Size(37, 34);
@@ -177,7 +177,7 @@ namespace snookerFormdemo
             // 
             this.ball3.BackColor = System.Drawing.Color.Turquoise;
             this.ball3.Image = ((System.Drawing.Image)(resources.GetObject("ball3.Image")));
-            this.ball3.Location = new System.Drawing.Point(312, 256);
+            this.ball3.Location = new System.Drawing.Point(339, 238);
             this.ball3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball3.Name = "ball3";
             this.ball3.Size = new System.Drawing.Size(37, 34);
@@ -189,7 +189,7 @@ namespace snookerFormdemo
             // 
             this.ball5.BackColor = System.Drawing.Color.Transparent;
             this.ball5.Image = ((System.Drawing.Image)(resources.GetObject("ball5.Image")));
-            this.ball5.Location = new System.Drawing.Point(380, 151);
+            this.ball5.Location = new System.Drawing.Point(572, 226);
             this.ball5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball5.Name = "ball5";
             this.ball5.Size = new System.Drawing.Size(37, 34);
@@ -201,7 +201,7 @@ namespace snookerFormdemo
             // 
             this.ball8.BackColor = System.Drawing.Color.Transparent;
             this.ball8.Image = ((System.Drawing.Image)(resources.GetObject("ball8.Image")));
-            this.ball8.Location = new System.Drawing.Point(412, 310);
+            this.ball8.Location = new System.Drawing.Point(494, 258);
             this.ball8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ball8.Name = "ball8";
             this.ball8.Size = new System.Drawing.Size(37, 34);
@@ -211,32 +211,32 @@ namespace snookerFormdemo
             // 
             // ball3tmr
             // 
-            this.ball3tmr.Interval = 20;
+            this.ball3tmr.Interval = 10;
             this.ball3tmr.Tick += new System.EventHandler(this.ball3tmr_Tick);
             // 
             // ball4tmr
             // 
-            this.ball4tmr.Interval = 20;
+            this.ball4tmr.Interval = 10;
             this.ball4tmr.Tick += new System.EventHandler(this.ball4tmr_Tick);
             // 
             // ball5tmr
             // 
-            this.ball5tmr.Interval = 20;
+            this.ball5tmr.Interval = 10;
             this.ball5tmr.Tick += new System.EventHandler(this.ball5tmr_Tick);
             // 
             // ball6tmr
             // 
-            this.ball6tmr.Interval = 20;
+            this.ball6tmr.Interval = 10;
             this.ball6tmr.Tick += new System.EventHandler(this.ball6tmr_Tick);
             // 
             // ball7tmr
             // 
-            this.ball7tmr.Interval = 20;
+            this.ball7tmr.Interval = 10;
             this.ball7tmr.Tick += new System.EventHandler(this.ball7tmr_Tick);
             // 
             // ball8tmr
             // 
-            this.ball8tmr.Interval = 20;
+            this.ball8tmr.Interval = 10;
             this.ball8tmr.Tick += new System.EventHandler(this.ball8tmr_Tick);
             // 
             // drtmr

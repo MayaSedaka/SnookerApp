@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Media;
 using System.Windows.Forms;
-
+using System.Diagnostics;
 
 
 namespace snookerFormdemo
@@ -39,10 +39,10 @@ namespace snookerFormdemo
     
         Point startDownLocation= new Point();
         static PaintEventArgs ev;
+        Stopwatch timer = new Stopwatch();
         public Form1()
         {
 
-          
             InitializeComponent();
 
             generaltmr.Start();
@@ -52,7 +52,7 @@ namespace snookerFormdemo
             trb.Hide();
             trb1.Hide();
             player = true;
-            k = 0.002;
+            k = 0.33;
             left = 60;
             right = 1500;
             top = 60;
@@ -142,7 +142,7 @@ namespace snookerFormdemo
             double vx1final, vx2final;
             ///* if (vx1 != 0 && vx2 != 0)
             //{
-            vx1final =vx2;//(vx1 / Math.Abs(vx1)) * vx2;
+            vx1final = vx2;//(vx1 / Math.Abs(vx1)) * vx2;
     
                 //vx2final = (vx1final / Math.Abs(vx1final)) * vx1;//-(vx2 / Math.Abs(vx2)) * vx1;
         
@@ -212,6 +212,7 @@ namespace snookerFormdemo
         }
         private void balltmr_Tick(object sender, EventArgs e)
         {
+          
             //ball.Left < 60 || ball.Right > 1560 || ball.Top < 40 || ball.Bottom > 660
             if (ball.Left < left || ball.Right > right || ball.Top < top || ball.Bottom > bottom)
             {
@@ -232,25 +233,42 @@ namespace snookerFormdemo
 
 
            ;
-            ball.Left += ballObj.Delta_x() / 20;
-            ball.Top -= ballObj.Delta_y() / 20;
+            ball.Left += (int)(ballObj.v * Math.Cos(ballObj.angle) / 10);
+            ball.Top -= (int)(ballObj.v * Math.Sin(ballObj.angle) / 10);
 
-          //  while (Math.Abs(ballObj.v) > 0.02)
+            //  while (Math.Abs(ballObj.v) > 0.02)
             //{
-              //  if (ballObj.v < 0) 
-                //    ballObj.v += Math.Abs(9.81 * k);
-                //else
-                  //  {
-                    //    ballObj.v -= Math.Abs(9.81 * k);
-                      //  Console.WriteLine(ballObj.v);
-             
-            
-        
-    
+            //  if (ballObj.v < 0) 
+            //    ballObj.v += Math.Abs(9.81 * k);
+            //else
+            //  {
+            //    ballObj.v -= Math.Abs(9.81 * k);
+            //  Console.WriteLine(ballObj.v);
+
+
+            if (ballObj.v > 0)
+            {
+                ballObj.v -= 9.81 * k;
+                if (ballObj.v <= 0)
+                    ballObj.v = 0;
+            }
+
+            else if (ballObj.v < 0)
+            {
+                ballObj.v += 9.81 * k;
+                if (ballObj.v >= 0)
+                    ballObj.v = 0;
+            }
+            else
+            {
+                ballObj.v = 0;
+
+            }
 
 
 
-                for (int i = 1; i < 8; i++)
+
+            for (int i = 1; i < 8; i++)
             {
                 if (ball.Bounds.IntersectsWith(arr[i].Bounds))
                 {
@@ -291,10 +309,10 @@ namespace snookerFormdemo
                 e.Graphics.DrawLine(blackPen, point1, point2);
                 if (isPressed)
                 {
-                    ball3Obj.v = Math.Sqrt(Math.Pow((eMouseX - ball3.Left + 13), 2) + Math.Pow((eMouseY - ball3.Top + 13), 2)) / 1.25;
+                    ball3Obj.v = Math.Sqrt(Math.Pow((eMouseX - ball3.Left + 13), 2) + Math.Pow((eMouseY - ball3.Top + 13), 2))/3 ;
 
-                    ball3Obj.angle = -Math.Atan2((eMouseY - ball3.Top + 13), (eMouseX - ball3.Left + 13));//-2.5*Math.PI);
-                                                                                                          // Console.WriteLine(ball3Obj.angle);
+                    ball3Obj.angle = -Math.Atan2((eMouseY - ball3.Top + 13), (eMouseX - ball3.Left + 13));// -2.5*Math.PI;
+                    lbl.Text = "" + ball3Obj.angle/Math.PI*180;                                                                                      // Console.WriteLine(ball3Obj.angle);
                     ball3tmr.Start();
 
                 }
@@ -453,11 +471,28 @@ namespace snookerFormdemo
                     ball2Obj.angle = -0.5 * Math.PI + ball2Obj.angle;
                 }
             }
-            ball2.Left += ball2Obj.Delta_x()/20;
-            ball2.Top -= ball2Obj.Delta_y()/20;
-           // while (ball2Obj.v > 0)
-             //   ball2Obj.v -= Math.Abs(9.81 * k);
+            ball2.Left += (int)(ball2Obj.v * Math.Cos(ball2Obj.angle) / 10);
+            ball2.Top -= (int)(ball2Obj.v * Math.Sin(ball2Obj.angle) / 10);
+            // while (ball2Obj.v > 0)
+            //   ball2Obj.v -= Math.Abs(9.81 * k);
+            if (ball2Obj.v > 0)
+            {
+                ball2Obj.v -= 9.81 * k;
+                if (ball2Obj.v <= 0)
+                    ball2Obj.v = 0;
+            }
 
+            else if (ball2Obj.v < 0)
+            {
+                ball2Obj.v += 9.81 * k;
+                if (ball2Obj.v >= 0)
+                    ball2Obj.v = 0;
+            }
+            else
+            {
+                ball2Obj.v = 0;
+
+            }
             for (int i = 0; i < 8; i++)
             {
                 if (i != 1)
@@ -476,7 +511,10 @@ namespace snookerFormdemo
 
         private void ball3tmr_Tick(object sender, EventArgs e)
         {
-           // Console.WriteLine(ball3Obj.angle / Math.PI * 180);
+
+           
+            ball3tmr.Interval = 10;
+            // Console.WriteLine(ball3Obj.angle / Math.PI * 180);
             if (ball3.Left < left || ball3.Right > right || ball3.Top < top || ball3.Bottom > bottom)
             {
 
@@ -488,16 +526,31 @@ namespace snookerFormdemo
                 else
                 {
                     ball3Obj.v = ball3Obj.v * -1;
-                    ball3Obj.angle =( -0.5 * Math.PI +ball3Obj.angle);
+                    ball3Obj.angle = (-0.5 * Math.PI + ball3Obj.angle);
                     //Console.WriteLine(ball3Obj.angle / Math.PI * 180);
                 }
             }
-          lbl.Text = "" + ball3Obj.v;
-            ball3.Left += ball3Obj.Delta_x() / 20;
-            ball3.Top -= ball3Obj.Delta_y() / 20;
-            //while (ball3Obj.v > 0)
-           //   ball3Obj.v -= Math.Abs(9.81*k/1000);
+           // lbl.Text = "" + ball3Obj.v;
+            ball3.Left += (int) (ball3Obj.v*Math.Cos(ball3Obj.angle) / 10);
+            ball3.Top -= (int)(ball3Obj.v * Math.Sin(ball3Obj.angle) / 10);
+            if (ball3Obj.v > 0)
+            {
+                ball3Obj.v -= 9.81 * k;
+                if (ball3Obj.v <= 0)
+                    ball3Obj.v = 0;
+            }
 
+            else if (ball3Obj.v < 0)
+            {
+                ball3Obj.v += 9.81 * k;
+                if (ball3Obj.v >= 0)
+                    ball3Obj.v = 0;
+            }
+            else
+            {
+                ball3Obj.v = 0;
+               
+            }
 
             for (int i = 0; i < 8; i++)
             {
@@ -512,12 +565,12 @@ namespace snookerFormdemo
                     }
                 }
             }
-            if (ball3Obj.v <= 5)
-            {
-                player = false;
-                timer2.Start();
-            }
-
+            //if (ball3Obj.v <= 10)
+            //{
+            // player = false;
+            //  timer2.Start();
+            //}
+          
         }
 
         private void ball4tmr_Tick(object sender, EventArgs e)
@@ -536,11 +589,28 @@ namespace snookerFormdemo
                     ball4Obj.angle = -0.5 * Math.PI + ball4Obj.angle;
                 }
             }
-            ball4.Left += ball4Obj.Delta_x() / 20;
-            ball4.Top -= ball4Obj.Delta_y() / 20;
-          //  while (ball4Obj.v > 0)
+            ball4.Left += (int)(ball4Obj.v * Math.Cos(ball4Obj.angle) / 10);
+            ball4.Top -= (int)(ball4Obj.v * Math.Sin(ball4Obj.angle) / 10);
+            //  while (ball4Obj.v > 0)
             //    ball4Obj.v -= Math.Abs(9.81  * k);
+            if (ball4Obj.v > 0)
+            {
+                ball4Obj.v -= 9.81 * k;
+                if (ball4Obj.v <= 0)
+                    ball4Obj.v = 0;
+            }
 
+            else if (ball4Obj.v < 0)
+            {
+                ball4Obj.v += 9.81 * k;
+                if (ball4Obj.v >= 0)
+                    ball4Obj.v = 0;
+            }
+            else
+            {
+                ball4Obj.v = 0;
+
+            }
 
 
             for (int i = 0; i < 8; i++)
@@ -573,11 +643,28 @@ namespace snookerFormdemo
                     ball5Obj.angle = -0.5 * Math.PI + ball5Obj.angle;
                 }
             }
-            ball5.Left += ball5Obj.Delta_x() / 20;
-            ball5.Top -= ball5Obj.Delta_y() / 20;
-          //  while (ball5Obj.v > 0)
+            ball5.Left += (int)(ball5Obj.v * Math.Cos(ball5Obj.angle) / 10);
+            ball5.Top -= (int)(ball5Obj.v * Math.Sin(ball5Obj.angle) / 10);
+            //  while (ball5Obj.v > 0)
             //    ball5Obj.v -= Math.Abs(9.81  * k);
+            if (ball5Obj.v > 0)
+            {
+                ball5Obj.v -= 9.81 * k;
+                if (ball5Obj.v <= 0)
+                    ball5Obj.v = 0;
+            }
 
+            else if (ball5Obj.v < 0)
+            {
+                ball5Obj.v += 9.81 * k;
+                if (ball5Obj.v >= 0)
+                    ball5Obj.v = 0;
+            }
+            else
+            {
+                ball5Obj.v = 0;
+
+            }
 
             for (int i = 0; i < 8; i++)
             {
@@ -593,6 +680,7 @@ namespace snookerFormdemo
                     }
                 }
             }
+          
 
         }
 
@@ -648,11 +736,28 @@ namespace snookerFormdemo
                     ball6Obj.angle = -0.5 * Math.PI + ball6Obj.angle;
                 }
             }
-            ball6.Left += ball6Obj.Delta_x() / 20;
-            ball6.Top -= ball6Obj.Delta_y() / 20;
-         //   while (ball6Obj.v > 0)
-           //     ball6Obj.v -= Math.Abs(9.81 * k);
+            ball6.Left += (int)(ball6Obj.v * Math.Cos(ball6Obj.angle) / 10);
+            ball6.Top -= (int)(ball6Obj.v * Math.Sin(ball6Obj.angle) / 10);
+            //   while (ball6Obj.v > 0)
+            //     ball6Obj.v -= Math.Abs(9.81 * k);
+            if (ball6Obj.v > 0)
+            {
+                ball6Obj.v -= 9.81 * k;
+                if (ball6Obj.v <= 0)
+                    ball6Obj.v = 0;
+            }
 
+            else if (ball6Obj.v < 0)
+            {
+                ball6Obj.v += 9.81 * k;
+                if (ball6Obj.v >= 0)
+                    ball6Obj.v = 0;
+            }
+            else
+            {
+                ball6Obj.v = 0;
+
+            }
 
             for (int i = 0; i < 8; i++)
             {
@@ -690,11 +795,28 @@ namespace snookerFormdemo
                     ball7Obj.angle = -0.5 * Math.PI + ball7Obj.angle % Math.PI / 2;
                 }
             }
-            ball7.Left += ball7Obj.Delta_x() / 20;
-            ball7.Top -= ball7Obj.Delta_y() / 20;
-         //   while (ball7Obj.v > 0)
-           //     ball7Obj.v -= Math.Abs(9.81 * k);
+            ball7.Left += (int)(ball7Obj.v * Math.Cos(ball7Obj.angle) / 10);
+            ball7.Top -= (int)(ball7Obj.v * Math.Sin(ball7Obj.angle) / 10);
+            //   while (ball7Obj.v > 0)
+            //     ball7Obj.v -= Math.Abs(9.81 * k);
+            if (ball7Obj.v > 0)
+            {
+                ball7Obj.v -= 9.81 * k;
+                if (ball7Obj.v <= 0)
+                    ball7Obj.v = 0;
+            }
 
+            else if (ball7Obj.v < 0)
+            {
+                ball7Obj.v += 9.81 * k;
+                if (ball7Obj.v >= 0)
+                    ball7Obj.v = 0;
+            }
+            else
+            {
+                ball7Obj.v = 0;
+
+            }
 
             for (int i = 0; i < 8; i++)
             {
@@ -728,11 +850,28 @@ namespace snookerFormdemo
                     ball8Obj.angle = -0.5 * Math.PI + ball8Obj.angle;
                 }
             }
-            ball8.Left += ball8Obj.Delta_x() / 20;
-            ball8.Top -= ball8Obj.Delta_y() / 20;
-         //   while (Math.Abs(ball8Obj.v) > 0)
-           //     ball8Obj.v -= Math.Abs(9.81  * k);
+            ball8.Left += (int)(ball8Obj.v * Math.Cos(ball8Obj.angle) / 10);
+            ball8.Top -= (int)(ball8Obj.v * Math.Sin(ball8Obj.angle) / 10);
+            //   while (Math.Abs(ball8Obj.v) > 0)
+            //     ball8Obj.v -= Math.Abs(9.81  * k);
+            if (ball8Obj.v > 0)
+            {
+                ball8Obj.v -= 9.81 * k;
+                if (ball8Obj.v <= 0)
+                    ball8Obj.v = 0;
+            }
 
+            else if (ball8Obj.v < 0)
+            {
+                ball8Obj.v += 9.81 * k;
+                if (ball8Obj.v >= 0)
+                    ball8Obj.v = 0;
+            }
+            else
+            {
+                ball8Obj.v = 0;
+
+            }
             for (int i = 0; i < 8; i++)
             {
                 if (i != 7)
@@ -755,26 +894,26 @@ namespace snookerFormdemo
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            int dis = 0, temp=0, b=0, h=0;
+            int dis = p3.Left- ball.Left, temp=0, b=0, h=0;
             for(int i=0; i<8; i++)
             {
                 for (int j = 0; j < 6;j++) {
                     if (i != 2)
                     {
                          temp= holes[j].Left-arr[i].Left;
-                        if (temp > dis)
+                        if (temp<dis)
                         {
                             b = i;
-                            h = j;
+                            h = j; 
                         }
                     }
                 }
 
                
             }
-
+           //arr[b].BackColor = Color.Red;
             ballArr[b].v = 70;
-            ballArr[b].angle = Math.Atan2((arr[b].Top - holes[h].Top), (arr[b].Left - holes[h].Left));
+            ballArr[b].angle = Math.Atan2((arr[b].Top -holes[h].Top), (arr[b].Left - holes[h].Left));
             tmrArr[b].Start();
             timer2.Stop();
         }
