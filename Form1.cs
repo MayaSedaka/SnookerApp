@@ -15,7 +15,7 @@ namespace snookerFormdemo
         double k;
         int left, right, top, bottom;
         bool isPressed = false;
-        
+        public double[,] dis = new double[8,6];
         public PictureBox[] arr = new PictureBox[8];
         public PictureBox[] holes = new PictureBox[6];
         public Ball[] ballArr = new Ball[8];
@@ -33,6 +33,8 @@ namespace snookerFormdemo
         Boolean f= false;
         int ang;
         int x, y;
+        int h, b;
+        Boolean flag=true;
         SoundPlayer so = new SoundPlayer(@"C:\new\sound2.WAV");
 
         public Point mouseDownLocation;
@@ -46,15 +48,16 @@ namespace snookerFormdemo
             InitializeComponent();
 
             generaltmr.Start();
-
-           // timer2.Start();
+          
+            // timer2.Start();
             timer1.Start();
             trb.Hide();
             trb1.Hide();
             player = true;
             k = 0.33;
+             
             left = 60;
-            right = 1500;
+            right = 1480;
             top = 60;
             bottom = 720;
             ballArr[0] = ballObj;
@@ -81,6 +84,7 @@ namespace snookerFormdemo
             arr[5] = ball6;
             arr[6] = ball7;
             arr[7] = ball8;
+           
 
 
             tmrArr[0] = balltmr;
@@ -91,6 +95,7 @@ namespace snookerFormdemo
             tmrArr[5] = ball6tmr;
             tmrArr[6] = ball7tmr;
             tmrArr[7] = ball8tmr;
+            MessageBox.Show("Welcome! Press OK to start :)");
 
         }
      
@@ -117,6 +122,59 @@ namespace snookerFormdemo
 
 
 
+        }
+
+        public static double disFromHole(PictureBox ball, PictureBox hole)
+        {
+            return Math.Sqrt(Math.Pow(ball.Left - hole.Left, 2) + Math.Pow(ball.Top - hole.Top, 2));
+        }
+
+        public void updateDisArray()
+        {
+            for(int i=0; i<8; i++)
+            {
+                for(int j=0; j<6; j++)
+                {
+                    dis[i, j] = disFromHole(arr[i], holes[j]);
+                }
+            }
+        }
+        public  double[] closeFromHole()
+        {
+           
+            double min = dis[0, 0],b,h;
+            double[] sol = new double[4];
+            for (int i=0; i<8; i++)
+            {
+                for (int j=1;j<6; j++)
+                {
+                    if (dis[i, j] < min)
+                    {
+                        if(isAngleToHole(i,j))
+                           min = dis[i, j];
+                        b = i;
+                        h = j;
+                        sol[0] = min;
+                        sol[1] = b;
+                        sol[2] = h;
+                        sol[3] = Math.Atan( (holes[(int)h].Top - arr[(int)b].Top)/ (holes[(int)h].Left - arr[(int)b].Left));
+                    }
+                }
+            }
+            return sol;
+        }
+        public double angleBetweenBalls(int b1, int b2)
+        {
+            return Math.Atan2((arr[b1].Top - arr[b2].Top) ,(arr[b1].Left - arr[b2].Left));
+        }
+        public Boolean isInTolerance(double x, int y)
+        {
+            return (x >= 0 && x <= y);
+        }
+        public Boolean isAngleToHole(int b, int h)
+        {
+            return (isInTolerance(Math.Abs(Math.Atan2( (holes[h].Top - arr[b].Top),(holes[h].Left - arr[b].Left)) -
+                Math.Atan2((-arr[b].Top + ball3.Top), (-arr[b].Left+ ball3.Left))),3));
         }
 
         public void Collision2(Ball b1, int i, Ball b2, int j)
@@ -298,24 +356,128 @@ namespace snookerFormdemo
         }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            if (ball3Obj.v == 0 ||!f) { 
-            // Create pen.
             Pen blackPen = new Pen(Color.Black, 3);
-            f=true;
-            // Create points that define line.
-            PointF point1 = new PointF((float)(ball3.Left+13), (float)(ball3.Top+13));
-            PointF point2 = new PointF((float)(eMouseX), (float)(eMouseY));
-                // Draw line to screen.
-                e.Graphics.DrawLine(blackPen, point1, point2);
-                if (isPressed)
-                {
-                    ball3Obj.v = Math.Sqrt(Math.Pow((eMouseX - ball3.Left + 13), 2) + Math.Pow((eMouseY - ball3.Top + 13), 2))/3 ;
+            if (ball3Obj.v == 0)
+            {
+                // Create pen.
 
-                    ball3Obj.angle = -Math.Atan2((eMouseY - ball3.Top + 13), (eMouseX - ball3.Left + 13));// -2.5*Math.PI;
-                    lbl.Text = "" + ball3Obj.angle/Math.PI*180;                                                                                      // Console.WriteLine(ball3Obj.angle);
-                    ball3tmr.Start();
+
+                // Create points that define line.
+                if (!player)
+
+                {
+                    if (isAngleToHole((int)(closeFromHole()[1]), (int)(closeFromHole()[2]))&& closeFromHole()[1]!=2)
+                    {
+                        //האם הזווית בין הקרוב לחור לחור שווה לזווית בין הכדור הלבן לכדור הקרוב לחור
+                        arr[(int)(closeFromHole()[1])].BackColor = Color.Brown;
+                        PointF point1 = new PointF((float)(ball3.Left + 13), (float)(ball3.Top + 13));
+                        PointF point2 = new PointF((float)(arr[(int)closeFromHole()[1]].Left), (float)(arr[(int)closeFromHole()[1]].Top));
+                        e.Graphics.DrawLine(blackPen, point1, point2);
+                        ball3Obj.angle = -Math.Atan2(point2.Y - point1.Y, point2.X - point1.X); //angleBetweenBalls(2, (int)closeFromHole()[1])+Math.PI;
+                        ball3Obj.v = 180;
+                        ball3tmr.Start();
+                       // arr[(int)(closeFromHole()[1])].BackColor = Color.Transparent;
+
+                    }
+                    else
+                    {
+                        for(int i=0; i<8; i++)
+                        {
+                            if(i != 2){
+                                if (closeFromHole()[3] == angleBetweenBalls((int)(closeFromHole()[1]),i))
+                                {
+                                    //האם הזווית בין הקרוב לחור לאחד הכדורים שוה לווית בין הקרוב לחור לחור
+                                    if(angleBetweenBalls(i,2) == angleBetweenBalls((int)(closeFromHole()[1]), i))
+                                    {
+                                        //האם בין הלבן גם שווה
+                                        ball4.BackColor = Color.Yellow;
+                                        PointF point1 = new PointF((float)(ball3.Left + 13), (float)(ball3.Top + 13));
+                                        PointF point2 = new PointF((float)(arr[i].Left), (float)(arr[i].Top));
+                                        e.Graphics.DrawLine(blackPen, point1, point2);
+                                        ball3Obj.angle = angleBetweenBalls(2,i);
+                                        ball3Obj.v = 100;
+                                        ball3tmr.Start();
+                                      
+                                  
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    //double min = dis[0,0];
+                    /* for (int i = 0; i < 8; i++)
+                     {
+                         if (i != 2)
+                         {
+                             for (int j = 1; j < 6;j++) {
+
+                                 {
+
+                                     /*if (((dis[i, j] < min) &&
+                                          (Math.Atan(Math.Abs((arr[i].Top - ball3.Top / arr[i].Left - ball3.Left)) -
+                                          Math.Atan(holes[j].Top - arr[i].Top / holes[j].Left - arr[i].Left))) <= 5 ||
+                                          (Math.Atan(Math.Abs((arr[i].Top - ball3.Top / arr[i].Left - ball3.Left)) -
+                                          Math.Atan(holes[j].Top - arr[i].Top / holes[j].Left - arr[i].Left)) <= 5))
+                                          &&(arr[i].Left>60&&arr[i].Left<1480&&arr[i].Top>60&& arr[i].Top<720)) {//||(dis[i, j] < min)) {
+                                         // Console.WriteLine("b:"+i +" h: "+j);
+                                         Console.WriteLine("nnnnnnnnnnnnnn");
+                                             min = dis[i, j];
+                                             b = i;
+                                             h = j;
+                                             ball.BackColor=Color.White;
+
+                                         }
+
+                                     }
+
+                                     // player = true;
+                                 }
+
+                             }*/
+                 
+                    x = ball3.Left;
+                   // flag = true;
 
                 }
+
+
+
+
+                /*  ball3Obj.v = Math.Sqrt(Math.Pow((arr[b].Left - ball3.Left + 13), 2) + Math.Pow((arr[b].Left - ball3.Top + 13), 2)) /3.5;
+                  ball3Obj.angle = -Math.Atan2((arr[b].Top - ball3.Top + 13), (arr[b].Left - ball3.Left + 13));//-Math.PI/2;
+                  ball3tmr.Start();*/
+
+
+
+
+
+                else if (player )
+                {
+                    PointF point1 = new PointF((float)(ball3.Left + 13), (float)(ball3.Top + 13));
+                    PointF point2 = new PointF((float)(eMouseX), (float)(eMouseY));
+                    e.Graphics.DrawLine(blackPen, point1, point2);
+                    // player = true;
+                }           // Draw line to screen.
+
+                if (isPressed)
+                {
+                    if (player)
+                    {
+                        ball3Obj.v = Math.Sqrt(Math.Pow((eMouseX - ball3.Left + 13), 2) + Math.Pow((eMouseY - ball3.Top + 13), 2)) / 3;
+
+                        ball3Obj.angle = -Math.Atan2((eMouseY - ball3.Top + 13), (eMouseX - ball3.Left + 13));// -2.5*Math.PI;
+                        lbl.Text = "" + ball3Obj.angle / Math.PI * 180;                                                                                      // Console.WriteLine(ball3Obj.angle);
+                        ball3tmr.Start();
+                        flag = false;
+                    }
+
+
+
+
+
+                }
+            }
             }
      
 
@@ -363,7 +525,7 @@ namespace snookerFormdemo
               e.Graphics.DrawImage(bit_map, 40, 40);*/
             // Invalidate();
          
-        }
+       
         private void Form1_MouseMove(object sender, MouseEventArgs e )
         {
 
@@ -523,6 +685,13 @@ namespace snookerFormdemo
                     ball3.Bounds.IntersectsWith(p4.Bounds) || ball3.Bounds.IntersectsWith(p5.Bounds) || ball3.Bounds.IntersectsWith(p6.Bounds))
                 {
                     ball3.Hide();
+                
+                    ball3tmr.Stop();
+                    String message = "GAME OVER!";
+                    
+                    MessageBox.Show(message);
+                   // if(MessageBoxButtons.OK.Equals(true))
+                    this.Close();
                 }
                 else
                 {
@@ -569,12 +738,32 @@ namespace snookerFormdemo
                     }
                 }
             }
-            //if (ball3Obj.v <= 10)
-            //{
-            // player = false;
-            //  timer2.Start();
-            //}
-          
+            /* if (!ball3.Visible)
+             {
+                 p2.BackColor = Color.White;
+                this.Refresh();
+                 ball3.Show();
+             }*/
+            /*  if (ball3Obj.v <= 0 &&!player)
+              {
+                      player = true;
+                     // timer2.Start();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                     ball3tmr.Stop();
+
+
+             }*/
+            /*else*/
+            if (ball3Obj.v <= 0 && player)
+            {
+                player = false;
+                ball3tmr.Stop();
+
+            }
+            else if (ball3Obj.v <= 0)
+            {
+                player = true;
+                ball3tmr.Stop();
+            }
         }
 
         private void ball4tmr_Tick(object sender, EventArgs e)
@@ -781,6 +970,11 @@ namespace snookerFormdemo
             }
         }
 
+        private void ball2_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void lbl_Click(object sender, EventArgs e)
         {
 
@@ -903,11 +1097,33 @@ namespace snookerFormdemo
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            int dis = p3.Left- ball.Left, temp=0, b=0, h=0;
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 6; j++)
+                {
+                    dis[i, j] = disFromHole(arr[i], holes[j]);
+                }
+            }
+            // int /*dis = p3.Left- ball.Left*/ //temp=0, b=0, h=0;
+            double min = dis[0,0];
             for(int i=0; i<8; i++)
             {
-                for (int j = 0; j < 6;j++) {
-                    if (i != 2)
+                for (int j = 0; j < 6; j++)
+                {
+
+                    if (dis[i, j] < min)
+                    {
+                        if (Math.Atan( (arr[i].Top - ball3.Top/arr[i].Left - ball3.Left) ) ==
+                            Math.Atan(holes[j].Top / arr[i].Top/holes[j].Left - arr[i].Left ))
+                        {
+                            min = dis[i, j];
+                            b = i;
+                            h = j;
+                            lbl.Text = "" + b;
+                        }
+                    }
+                }
+                   /* if (i != 2)
                     {
                          temp= holes[j].Left-arr[i].Left;
                         if (temp<dis)
@@ -916,27 +1132,41 @@ namespace snookerFormdemo
                             h = j; 
                         }
                     }
-                }
+                }*/
 
                
             }
-           //arr[b].BackColor = Color.Red;
-            ballArr[b].v = 70;
-            ballArr[b].angle = Math.Atan2((arr[b].Top -holes[h].Top), (arr[b].Left - holes[h].Left));
-            tmrArr[b].Start();
+            //arr[b].BackColor = Color.Red;
+            /* ballArr[b].v = 70;
+             double a = Math.Atan2((arr[b].Top - holes[h].Top), (arr[b].Left - holes[h].Left));
+             ballArr[b].angle =a;
+             Console.WriteLine(ballArr[b].angle);
+             tmrArr[b].Start();*/
+           // ball3Obj.v = 70;
+           // ball3Obj.angle = Math.Atan((arr[b].Top - ball3.Top / arr[b].Left - ball3.Left));
+           // ball3tmr.Start();
             timer2.Stop();
+           /* if (ballArr[b].v < 5)
+            {
+               
+                player = true;
+            }*/
         }
 
         private void generaltmr_Tick(object sender, EventArgs e)
         {
+            updateDisArray();
 
             this.Invalidate();
             if (!player)
             {
                
-                lbp.Text = "computer";
-                timer2.Start();
+                lbp.Text = ""+player;
+                //timer2.Start();
             }
+           
         }
+    
+
     }
-}
+    }

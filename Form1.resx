@@ -832,16 +832,6 @@
   <metadata name="ball2tmr.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 17</value>
   </metadata>
-  <data name="stick.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAARBJREFUWEft
-        0D1LQnEYhvHzaUIoaCloiQiHhhoaC8TitNiQ9kKgRNIQDdLSYmtDBI1FRFBJZi0RJFlDiilGHl9OHk3P
-        Mai4+hd9B5fnBxc89/poQgghhOi41WCQ0OQEYdWax8P6lJcNXSfi87E1F2B7cYnI/AI3J3tYhWteUqeY
-        6Tgfr7e0i3e0S/c4Rgqn+NsDdukJu5zBqeZwKs/YlexfLXU3S1maRob3YpqWZdCo19DCIR3d3YN3sIvp
-        IRczwy5m3d34R3pZHutnZXwA/2gfsZ0Ajcco+cQmb8ko5HehsA/GgepQdQTlYzDPoXYB9SuwEqpLtVWW
-        2mYcqjG+ymfQTvL9meP/D0IIIYToFE37AWpmyTZThTDOAAAAAElFTkSuQmCC
-</value>
-  </data>
   <metadata name="generaltmr.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>246, 10</value>
   </metadata>
