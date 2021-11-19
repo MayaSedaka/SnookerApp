@@ -54,7 +54,7 @@ namespace snookerFormdemo
             trb.Hide();
             trb1.Hide();
             player = true;
-            k = 0.33;
+            k = 0.43;
              
             left = 60;
             right = 1480;
@@ -123,7 +123,31 @@ namespace snookerFormdemo
 
 
         }
+        public Boolean ballsInTheWay(int h, int b)
+        {
 
+            for (int i = 0; i < 8; i++)
+            {
+                if (i != 2 && i != b)
+                {
+                    /* if (angleBetweenBalls(i,2) - angleBetweenBalls((int)closeFromHole()[1],i) >= 0 &&
+                         angleBetweenBalls(i, 2) - angleBetweenBalls((int)closeFromHole()[1], i) <= 3)*/
+                    if (isInTolerance(Math.Abs(angleBetweenBalls(i, 2)-(int)(angleBetweenBalls((int)closeFromHole()[1], i) )), 0))
+                    {
+                        ball7.BackColor = Color.Black;
+                        if (disFromHole(arr[i], holes[h]) < disFromHole(arr[2], holes[h]) && isOnLine((int)closeFromHole()[2], i, ball3.Left, ball3.Top))
+                        {
+                            arr[i].BackColor = Color.Coral;
+                            lbl.Text = "" + i;
+                            arr[(int)closeFromHole()[1]].BackColor = Color.White;
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+
+        }
         public static double disFromHole(PictureBox ball, PictureBox hole)
         {
             return Math.Sqrt(Math.Pow(ball.Left - hole.Left, 2) + Math.Pow(ball.Top - hole.Top, 2));
@@ -157,7 +181,7 @@ namespace snookerFormdemo
                         sol[0] = min;
                         sol[1] = b;
                         sol[2] = h;
-                        sol[3] = Math.Atan( (holes[(int)h].Top - arr[(int)b].Top)/ (holes[(int)h].Left - arr[(int)b].Left));
+                        sol[3] = Math.Atan2( (holes[(int)h].Top - arr[(int)b].Top), (holes[(int)h].Left - arr[(int)b].Left))+Math.PI;
                     }
                 }
             }
@@ -165,16 +189,22 @@ namespace snookerFormdemo
         }
         public double angleBetweenBalls(int b1, int b2)
         {
-            return Math.Atan2((arr[b1].Top - arr[b2].Top) ,(arr[b1].Left - arr[b2].Left));
+            return (Math.Atan2((arr[b1].Top - arr[b2].Top) ,(arr[b1].Left - arr[b2].Left)) + Math.PI)%360;
         }
-        public Boolean isInTolerance(double x, int y)
+        public Boolean isInTolerance(double x, double y)
         {
             return (x >= 0 && x <= y);
         }
         public Boolean isAngleToHole(int b, int h)
         {
-            return (isInTolerance(Math.Abs(Math.Atan2( (holes[h].Top - arr[b].Top),(holes[h].Left - arr[b].Left)) -
-                Math.Atan2((-arr[b].Top + ball3.Top), (-arr[b].Left+ ball3.Left))),3));
+            return (isInTolerance(Math.Abs(Math.Atan2( (holes[h].Top - arr[b].Top),(holes[h].Left - arr[b].Left))+Math.PI -
+                Math.Atan2((-arr[b].Top + ball3.Top), (-arr[b].Left+ ball3.Left))+Math.PI),5));
+        }
+        public Boolean isOnLine( int b1, int b2, int x, int y)
+        {
+            double m = (holes[b1].Top - arr[b2].Top) / (holes[b1].Left - arr[b2].Left);
+            double b = holes[b1].Top - m * holes[b1].Left;
+            return y == m * x + b||isInTolerance(y, (int)(m * x + b+5))|| isInTolerance(y, (int)(m * x + b - 5));
         }
 
         public void Collision2(Ball b1, int i, Ball b2, int j)
@@ -280,8 +310,11 @@ namespace snookerFormdemo
                 }
                 else
                 {
-                    ballObj.v = ballObj.v * -1;
-                    ballObj.angle = -0.5 * Math.PI +ballObj.angle;
+                    //ballObj.v = ballObj.v * -1;
+                    if (ballObj.angle != 0 && ballObj.angle != Math.PI)
+                        ballObj.angle = (-0.5 * Math.PI + ballObj.angle);
+                    else
+                        ballObj.angle = ballObj.angle + Math.PI;
                 }
             }
             // double dis = Math.Pow(ballObj.v, 2) / 20 * k;
@@ -366,7 +399,9 @@ namespace snookerFormdemo
                 if (!player)
 
                 {
-                    if (isAngleToHole((int)(closeFromHole()[1]), (int)(closeFromHole()[2]))&& closeFromHole()[1]!=2)
+                    if (isAngleToHole((int)(closeFromHole()[1]), (int)(closeFromHole()[2]))
+                        && closeFromHole()[1]!=2&&!ballsInTheWay((int)(closeFromHole()[2]), (int)(closeFromHole()[1])))
+                        //&&isOnLine((int)(closeFromHole()[2]),(int)(closeFromHole()[1]),ball3.Left,ball3.Top))
                     {
                         //האם הזווית בין הקרוב לחור לחור שווה לזווית בין הכדור הלבן לכדור הקרוב לחור
                         arr[(int)(closeFromHole()[1])].BackColor = Color.Brown;
@@ -374,7 +409,7 @@ namespace snookerFormdemo
                         PointF point2 = new PointF((float)(arr[(int)closeFromHole()[1]].Left), (float)(arr[(int)closeFromHole()[1]].Top));
                         e.Graphics.DrawLine(blackPen, point1, point2);
                         ball3Obj.angle = -Math.Atan2(point2.Y - point1.Y, point2.X - point1.X); //angleBetweenBalls(2, (int)closeFromHole()[1])+Math.PI;
-                        ball3Obj.v = 180;
+                        ball3Obj.v = 200;
                         ball3tmr.Start();
                        // arr[(int)(closeFromHole()[1])].BackColor = Color.Transparent;
 
@@ -386,8 +421,10 @@ namespace snookerFormdemo
                             if(i != 2){
                                 if (closeFromHole()[3] == angleBetweenBalls((int)(closeFromHole()[1]),i))
                                 {
-                                    //האם הזווית בין הקרוב לחור לאחד הכדורים שוה לווית בין הקרוב לחור לחור
-                                    if(angleBetweenBalls(i,2) == angleBetweenBalls((int)(closeFromHole()[1]), i))
+                                    //האם הזווית בין הקרוב לחור לאחד הכדורים שוה לזווית בין הקרוב לחור לחור
+                                    if(angleBetweenBalls(i,2) == angleBetweenBalls((int)(closeFromHole()[1]), i)
+                                        && isOnLine((int)(closeFromHole()[2]), (int)(closeFromHole()[1]), ball3.Left, ball3.Top))
+                                    
                                     {
                                         //האם בין הלבן גם שווה
                                         ball4.BackColor = Color.Yellow;
@@ -400,6 +437,7 @@ namespace snookerFormdemo
                                       
                                   
                                     }
+                                    //לנסות להמשיך לעבור על הכדורים לפי מי שהכי קרוב ואז זה שאחריו וכו ולבדוק האם התנאי מתקיים
 
                                 }
                             }
@@ -629,8 +667,10 @@ namespace snookerFormdemo
                 }
                 else
                 {
-                    ball2Obj.v = ball2Obj.v * -1;
-                    ball2Obj.angle = -0.5 * Math.PI + ball2Obj.angle;
+                    if (ball2Obj.angle != 0 && ball2Obj.angle != Math.PI)
+                        ball2Obj.angle = (-0.5 * Math.PI + ball2Obj.angle);
+                    else
+                        ball2Obj.angle = ball2Obj.angle + Math.PI;
                 }
             }
             ball2.Left += (int)(ball2Obj.v * Math.Cos(ball2Obj.angle) / 10);
@@ -695,8 +735,13 @@ namespace snookerFormdemo
                 }
                 else
                 {
-                    ball3Obj.v = ball3Obj.v * -1;
-                    ball3Obj.angle = (-0.5 * Math.PI + ball3Obj.angle);
+                   // ball3Obj.v = ball3Obj.v * -1;
+                   // ball3.BackColor = Color.Black;
+                    if (ball3Obj.angle != 0&& ball3Obj.angle!=Math.PI)
+                        ball3Obj.angle = (-0.5 * Math.PI + ball3Obj.angle);
+                    else
+                        ball3Obj.angle = ball3Obj.angle + Math.PI;
+                            
                     //Console.WriteLine(ball3Obj.angle / Math.PI * 180);
                 }
             }
@@ -755,13 +800,13 @@ namespace snookerFormdemo
             /*else*/
             if (ball3Obj.v <= 0 && player)
             {
-                player = false;
+               player = false;
                 ball3tmr.Stop();
 
             }
             else if (ball3Obj.v <= 0)
             {
-                player = true;
+              player = true;
                 ball3tmr.Stop();
             }
         }
@@ -778,8 +823,10 @@ namespace snookerFormdemo
                 }
                 else
                 {
-                    ball4Obj.v = ball4Obj.v * -1;
-                    ball4Obj.angle = -0.5 * Math.PI + ball4Obj.angle;
+                    if (ball4Obj.angle != 0 && ball4Obj.angle != Math.PI)
+                        ball4Obj.angle = (-0.5 * Math.PI + ball4Obj.angle);
+                    else
+                        ball4Obj.angle = ball4Obj.angle + Math.PI;
                 }
             }
             ball4.Left += (int)(ball4Obj.v * Math.Cos(ball4Obj.angle) / 10);
@@ -833,8 +880,10 @@ namespace snookerFormdemo
                     ball5.Hide();
                 }
                 else{
-                    ball5Obj.v = ball5Obj.v * -1;
-                    ball5Obj.angle = -0.5 * Math.PI + ball5Obj.angle;
+                    if (ball5Obj.angle != 0 && ball5Obj.angle != Math.PI)
+                        ball5Obj.angle = (-0.5 * Math.PI + ball5Obj.angle);
+                    else
+                        ball5Obj.angle = ball5Obj.angle + Math.PI;
                 }
             }
             ball5.Left += (int)(ball5Obj.v * Math.Cos(ball5Obj.angle) / 10);
@@ -927,8 +976,10 @@ namespace snookerFormdemo
                 }
                 else
                 {
-                    ball6Obj.v = ball6Obj.v * -1;
-                    ball6Obj.angle = -0.5 * Math.PI + ball6Obj.angle;
+                    if (ball6Obj.angle != 0 && ball6Obj.angle != Math.PI)
+                        ball6Obj.angle = (-0.5 * Math.PI + ball6Obj.angle);
+                    else
+                        ball6Obj.angle = ball6Obj.angle + Math.PI;
                 }
             }
             ball6.Left += (int)(ball6Obj.v * Math.Cos(ball6Obj.angle) / 10);
@@ -975,6 +1026,11 @@ namespace snookerFormdemo
 
         }
 
+        private void ball4_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void lbl_Click(object sender, EventArgs e)
         {
 
@@ -992,8 +1048,10 @@ namespace snookerFormdemo
                 }
                 else
                 {
-                    ball7Obj.v = ball7Obj.v * -1;
-                    ball7Obj.angle = -0.5 * Math.PI + ball7Obj.angle % Math.PI / 2;
+                    if (ball7Obj.angle != 0 && ball7Obj.angle != Math.PI)
+                        ball7Obj.angle = (-0.5 * Math.PI + ball7Obj.angle);
+                    else
+                        ball7Obj.angle = ball7Obj.angle + Math.PI;
                 }
             }
             ball7.Left += (int)(ball7Obj.v * Math.Cos(ball7Obj.angle) / 10);
@@ -1048,8 +1106,10 @@ namespace snookerFormdemo
                 }
                 else
                 {
-                    ball8Obj.v = ball8Obj.v * -1;
-                    ball8Obj.angle = -0.5 * Math.PI + ball8Obj.angle;
+                    if (ball8Obj.angle != 0 && ball8Obj.angle != Math.PI)
+                        ball8Obj.angle = (-0.5 * Math.PI + ball8Obj.angle);
+                    else
+                        ball8Obj.angle = ball8Obj.angle + Math.PI;
                 }
             }
             ball8.Left += (int)(ball8Obj.v * Math.Cos(ball8Obj.angle) / 10);
