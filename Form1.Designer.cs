@@ -66,6 +66,20 @@ namespace snookerFormdemo
             this.lbl = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.lbp = new System.Windows.Forms.Label();
+            this.ball9 = new System.Windows.Forms.PictureBox();
+            this.ball10 = new System.Windows.Forms.PictureBox();
+            this.ball11 = new System.Windows.Forms.PictureBox();
+            this.ball12 = new System.Windows.Forms.PictureBox();
+            this.ball13 = new System.Windows.Forms.PictureBox();
+            this.ball14 = new System.Windows.Forms.PictureBox();
+            this.ball15 = new System.Windows.Forms.PictureBox();
+            this.ball9tmr = new System.Windows.Forms.Timer(this.components);
+            this.ball10tmr = new System.Windows.Forms.Timer(this.components);
+            this.ball11tmr = new System.Windows.Forms.Timer(this.components);
+            this.ball12tmr = new System.Windows.Forms.Timer(this.components);
+            this.ball13tmr = new System.Windows.Forms.Timer(this.components);
+            this.ball14tmr = new System.Windows.Forms.Timer(this.components);
+            this.ball15tmr = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ball)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ball7)).BeginInit();
@@ -83,6 +97,13 @@ namespace snookerFormdemo
             ((System.ComponentModel.ISupportInitialize)(this.p3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.p1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ball9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball15)).BeginInit();
             this.SuspendLayout();
             // 
             // ball
@@ -238,7 +259,7 @@ namespace snookerFormdemo
             this.trb1.Location = new System.Drawing.Point(447, 29);
             this.trb1.Maximum = 80;
             this.trb1.Name = "trb1";
-            this.trb1.Size = new System.Drawing.Size(327, 56);
+            this.trb1.Size = new System.Drawing.Size(327, 45);
             this.trb1.TabIndex = 16;
             this.trb1.Resize += new System.EventHandler(this.trb1_Resize);
             // 
@@ -248,7 +269,7 @@ namespace snookerFormdemo
             this.hit.BackColor = System.Drawing.Color.SkyBlue;
             this.hit.Location = new System.Drawing.Point(518, 519);
             this.hit.Name = "hit";
-            this.hit.Size = new System.Drawing.Size(45, 21);
+            this.hit.Size = new System.Drawing.Size(40, 20);
             this.hit.TabIndex = 17;
             this.hit.Text = "hit";
             this.hit.UseVisualStyleBackColor = false;
@@ -258,10 +279,10 @@ namespace snookerFormdemo
             // 
             this.trb.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.trb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.trb.Location = new System.Drawing.Point(220, 295);
+            this.trb.Location = new System.Drawing.Point(310, 200);
             this.trb.Maximum = 360;
             this.trb.Name = "trb";
-            this.trb.Size = new System.Drawing.Size(327, 56);
+            this.trb.Size = new System.Drawing.Size(327, 45);
             this.trb.TabIndex = 18;
             this.trb.ValueChanged += new System.EventHandler(this.trb_ValueChanged);
             // 
@@ -341,19 +362,19 @@ namespace snookerFormdemo
             this.newGameToolStripMenuItem,
             this.homePageToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(155, 52);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(135, 48);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // newGameToolStripMenuItem
             // 
             this.newGameToolStripMenuItem.Name = "newGameToolStripMenuItem";
-            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
+            this.newGameToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.newGameToolStripMenuItem.Text = "new game";
             // 
             // homePageToolStripMenuItem
             // 
             this.homePageToolStripMenuItem.Name = "homePageToolStripMenuItem";
-            this.homePageToolStripMenuItem.Size = new System.Drawing.Size(154, 24);
+            this.homePageToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.homePageToolStripMenuItem.Text = "home page";
             // 
             // lbl
@@ -361,7 +382,7 @@ namespace snookerFormdemo
             this.lbl.AutoSize = true;
             this.lbl.Location = new System.Drawing.Point(194, 82);
             this.lbl.Name = "lbl";
-            this.lbl.Size = new System.Drawing.Size(23, 17);
+            this.lbl.Size = new System.Drawing.Size(22, 16);
             this.lbl.TabIndex = 26;
             this.lbl.Text = "v1";
             this.lbl.Click += new System.EventHandler(this.lbl_Click);
@@ -375,9 +396,128 @@ namespace snookerFormdemo
             this.lbp.AutoSize = true;
             this.lbp.Location = new System.Drawing.Point(109, 202);
             this.lbp.Name = "lbp";
-            this.lbp.Size = new System.Drawing.Size(47, 17);
+            this.lbp.Size = new System.Drawing.Size(46, 16);
             this.lbp.TabIndex = 27;
             this.lbp.Text = "player";
+            // 
+            // ball9
+            // 
+            this.ball9.BackColor = System.Drawing.Color.Transparent;
+            this.ball9.Image = ((System.Drawing.Image)(resources.GetObject("ball9.Image")));
+            this.ball9.Location = new System.Drawing.Point(282, 239);
+            this.ball9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ball9.Name = "ball9";
+            this.ball9.Size = new System.Drawing.Size(37, 34);
+            this.ball9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ball9.TabIndex = 28;
+            this.ball9.TabStop = false;
+            // 
+            // ball10
+            // 
+            this.ball10.BackColor = System.Drawing.Color.Transparent;
+            this.ball10.Image = ((System.Drawing.Image)(resources.GetObject("ball10.Image")));
+            this.ball10.Location = new System.Drawing.Point(247, 464);
+            this.ball10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ball10.Name = "ball10";
+            this.ball10.Size = new System.Drawing.Size(37, 34);
+            this.ball10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ball10.TabIndex = 29;
+            this.ball10.TabStop = false;
+            // 
+            // ball11
+            // 
+            this.ball11.BackColor = System.Drawing.Color.Transparent;
+            this.ball11.Image = ((System.Drawing.Image)(resources.GetObject("ball11.Image")));
+            this.ball11.Location = new System.Drawing.Point(299, 522);
+            this.ball11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ball11.Name = "ball11";
+            this.ball11.Size = new System.Drawing.Size(37, 34);
+            this.ball11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ball11.TabIndex = 30;
+            this.ball11.TabStop = false;
+            // 
+            // ball12
+            // 
+            this.ball12.BackColor = System.Drawing.Color.Transparent;
+            this.ball12.Image = ((System.Drawing.Image)(resources.GetObject("ball12.Image")));
+            this.ball12.Location = new System.Drawing.Point(319, 126);
+            this.ball12.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ball12.Name = "ball12";
+            this.ball12.Size = new System.Drawing.Size(37, 34);
+            this.ball12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ball12.TabIndex = 31;
+            this.ball12.TabStop = false;
+            // 
+            // ball13
+            // 
+            this.ball13.BackColor = System.Drawing.Color.Transparent;
+            this.ball13.Image = ((System.Drawing.Image)(resources.GetObject("ball13.Image")));
+            this.ball13.Location = new System.Drawing.Point(220, 345);
+            this.ball13.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ball13.Name = "ball13";
+            this.ball13.Size = new System.Drawing.Size(37, 34);
+            this.ball13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ball13.TabIndex = 32;
+            this.ball13.TabStop = false;
+            // 
+            // ball14
+            // 
+            this.ball14.BackColor = System.Drawing.Color.Transparent;
+            this.ball14.Image = ((System.Drawing.Image)(resources.GetObject("ball14.Image")));
+            this.ball14.Location = new System.Drawing.Point(494, 369);
+            this.ball14.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ball14.Name = "ball14";
+            this.ball14.Size = new System.Drawing.Size(37, 34);
+            this.ball14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ball14.TabIndex = 33;
+            this.ball14.TabStop = false;
+            // 
+            // ball15
+            // 
+            this.ball15.BackColor = System.Drawing.Color.Transparent;
+            this.ball15.Image = ((System.Drawing.Image)(resources.GetObject("ball15.Image")));
+            this.ball15.Location = new System.Drawing.Point(118, 211);
+            this.ball15.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ball15.Name = "ball15";
+            this.ball15.Size = new System.Drawing.Size(37, 34);
+            this.ball15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.ball15.TabIndex = 34;
+            this.ball15.TabStop = false;
+            // 
+            // ball9tmr
+            // 
+            this.ball9tmr.Interval = 10;
+            this.ball9tmr.Tick += new System.EventHandler(this.ball9tmr_Tick);
+            // 
+            // ball10tmr
+            // 
+            this.ball10tmr.Interval = 10;
+            this.ball10tmr.Tick += new System.EventHandler(this.ball10tmr_Tick);
+            // 
+            // ball11tmr
+            // 
+            this.ball11tmr.Interval = 10;
+            this.ball11tmr.Tick += new System.EventHandler(this.ball11tmr_Tick);
+            // 
+            // ball12tmr
+            // 
+            this.ball12tmr.Interval = 10;
+            this.ball12tmr.Tick += new System.EventHandler(this.ball12tmr_Tick);
+            // 
+            // ball13tmr
+            // 
+            this.ball13tmr.Interval = 10;
+            this.ball13tmr.Tick += new System.EventHandler(this.ball13tmr_Tick);
+            // 
+            // ball14tmr
+            // 
+            this.ball14tmr.Interval = 10;
+            this.ball14tmr.Tick += new System.EventHandler(this.ball14tmr_Tick);
+            // 
+            // ball15tmr
+            // 
+            this.ball15tmr.Interval = 10;
+            this.ball15tmr.Tick += new System.EventHandler(this.ball15tmr_Tick);
             // 
             // Form1
             // 
@@ -387,6 +527,13 @@ namespace snookerFormdemo
             this.BackgroundImage = global::snookerFormdemo.Properties.Resources.table1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(883, 567);
+            this.Controls.Add(this.ball15);
+            this.Controls.Add(this.ball14);
+            this.Controls.Add(this.ball13);
+            this.Controls.Add(this.ball12);
+            this.Controls.Add(this.ball11);
+            this.Controls.Add(this.ball10);
+            this.Controls.Add(this.ball9);
             this.Controls.Add(this.lbp);
             this.Controls.Add(this.lbl);
             this.Controls.Add(this.popup);
@@ -434,6 +581,13 @@ namespace snookerFormdemo
             ((System.ComponentModel.ISupportInitialize)(this.p3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.p1)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ball9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ball15)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -476,6 +630,20 @@ namespace snookerFormdemo
         private System.Windows.Forms.Label lbl;
         private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Label lbp;
+        private System.Windows.Forms.PictureBox ball9;
+        private System.Windows.Forms.PictureBox ball10;
+        private System.Windows.Forms.PictureBox ball11;
+        private System.Windows.Forms.PictureBox ball12;
+        private System.Windows.Forms.PictureBox ball13;
+        private System.Windows.Forms.PictureBox ball14;
+        private System.Windows.Forms.PictureBox ball15;
+        private System.Windows.Forms.Timer ball9tmr;
+        private System.Windows.Forms.Timer ball10tmr;
+        private System.Windows.Forms.Timer ball11tmr;
+        private System.Windows.Forms.Timer ball12tmr;
+        private System.Windows.Forms.Timer ball13tmr;
+        private System.Windows.Forms.Timer ball14tmr;
+        private System.Windows.Forms.Timer ball15tmr;
     }
 }
 

@@ -12,14 +12,21 @@ namespace snookerFormdemo
     {
      
         float eMouseX, eMouseY;
-        double k;
-        int left, right, top, bottom;
+        public static double k;
+     
+        public static int left = 60;
+        public static int right = 1480;
+        public static int top = 60;
+        public static int bottom = 720;
         bool isPressed = false;
         public double[,] dis = new double[8,6];
-        public PictureBox[] arr = new PictureBox[8];
-        public PictureBox[] holes = new PictureBox[6];
-        public Ball[] ballArr = new Ball[8];
-        Timer[] tmrArr = new Timer[8];
+        public static PictureBox[] arr = new PictureBox[8];
+        public static PictureBox[] holes = new PictureBox[6];
+        public static Ball[] ballArr = new Ball[8];
+        public static Timer[] tmrArr = new Timer[15];
+        public static Ball[] striped = new Ball[7];
+        public static PictureBox[] arrst = new PictureBox[7];
+        
         Ball ballObj = new Ball(2);
         Ball ball2Obj = new Ball(2);
         Ball ball3Obj = new Ball(2);
@@ -28,6 +35,15 @@ namespace snookerFormdemo
         Ball ball6Obj = new Ball(2);
         Ball ball7Obj = new Ball(2);
         Ball ball8Obj = new Ball(2);
+
+        Ball ball9Obj = new Ball(2);
+        Ball ball10Obj = new Ball(2);
+        Ball ball11Obj = new Ball(2);
+        Ball ball12Obj = new Ball(2);
+        Ball ball13Obj = new Ball(2);
+        Ball ball14Obj = new Ball(2);
+        Ball ball15Obj = new Ball(2);
+    
         float vel;
         Boolean player;//computer-false, person-true
         Boolean f= false;
@@ -35,8 +51,8 @@ namespace snookerFormdemo
         int x, y;
         int h, b;
         Boolean flag=true;
-        SoundPlayer so = new SoundPlayer(@"C:\new\sound2.WAV");
-
+        public static SoundPlayer so = new SoundPlayer(@"C:\new\sound2.WAV");
+      
         public Point mouseDownLocation;
     
         Point startDownLocation= new Point();
@@ -55,11 +71,15 @@ namespace snookerFormdemo
             trb1.Hide();
             player = true;
             k = 0.43;
-             
-            left = 60;
-            right = 1480;
-            top = 60;
-            bottom = 720;
+
+            striped[0] = ball9Obj;
+            striped[1] = ball10Obj;
+            striped[2] = ball11Obj;
+            striped[3] = ball12Obj;
+            striped[4] = ball13Obj;
+            striped[5] = ball14Obj;
+            striped[6] = ball15Obj;
+
             ballArr[0] = ballObj;
             ballArr[1] = ball2Obj;
             ballArr[2] = ball3Obj;
@@ -84,7 +104,14 @@ namespace snookerFormdemo
             arr[5] = ball6;
             arr[6] = ball7;
             arr[7] = ball8;
-           
+
+            arrst[0] = ball9;
+            arrst[1] = ball10;
+            arrst[2] = ball11;
+            arrst[3] = ball12;
+            arrst[4] = ball13;
+            arrst[5] = ball14;
+            arrst[6] = ball15;
 
 
             tmrArr[0] = balltmr;
@@ -95,6 +122,14 @@ namespace snookerFormdemo
             tmrArr[5] = ball6tmr;
             tmrArr[6] = ball7tmr;
             tmrArr[7] = ball8tmr;
+            tmrArr[8] = ball9tmr;
+            tmrArr[9]= ball10tmr;
+            tmrArr[10] = ball11tmr;
+            tmrArr[11] = ball12tmr;
+            tmrArr[12] = ball13tmr;
+            tmrArr[13] = ball14tmr;
+            tmrArr[14] = ball15tmr;
+            
             MessageBox.Show("Welcome! Press OK to start :)");
 
         }
@@ -207,7 +242,7 @@ namespace snookerFormdemo
             return y == m * x + b||isInTolerance(y, (int)(m * x + b+5))|| isInTolerance(y, (int)(m * x + b - 5));
         }
 
-        public void Collision2(Ball b1, int i, Ball b2, int j)
+        public static void Collision2(Ball b1, int i, Ball b2, int j)
         {
             
             int dx = arr[j].Left - arr[i].Left;
@@ -285,6 +320,243 @@ namespace snookerFormdemo
             else
                 b2.angle = Math.PI / 2;
         }
+
+
+        public static void Collision2Striped1(Ball b1, int i, Ball b2, int j)
+        {
+
+            int dx = arrst[j].Left - arrst[i].Left;
+            int dy = arrst[j].Top - arrst[i].Top;
+            double dist = Math.Sqrt(dx * dx + dy * dy);
+            double angle = Math.Atan2(dy, dx);
+
+            double sin = Math.Sin(angle);
+            double cos = Math.Cos(angle);
+            double s = Math.Sin(Math.PI / 2 - angle);
+            double c = Math.Cos(Math.PI / 2 - angle);
+
+            double vx1 = b1.Delta_x() * cos + b1.Delta_y() * sin;
+            double vy1 = b1.Delta_y() * cos - b1.Delta_x() * sin;
+            // double vx2 = b2.Delta_x() * c - b2.Delta_x() * s;
+            double vx2 = b2.Delta_x() * cos + b2.Delta_y() * sin;
+            // double vy2 = b2.Delta_y() * c - b2.Delta_y() * s;
+            double vy2 = b2.Delta_y() * cos - b2.Delta_x() * sin;
+            //double vx2 = b2.Delta_x() * Math.Cos(0.5 * Math.PI - angle) - b2.Delta_x() * Math.Sin(0.5 * Math.PI - angle);
+            //double vy2 = b2.Delta_y() * Math.Cos(0.5*Math.PI -angle) - b2.Delta_y() * Math.Sin(0.5 * Math.PI - angle);
+            double vx1final, vx2final;
+            ///* if (vx1 != 0 && vx2 != 0)
+            //{
+            vx1final = vx2;//(vx1 / Math.Abs(vx1)) * vx2;
+
+            //vx2final = (vx1final / Math.Abs(vx1final)) * vx1;//-(vx2 / Math.Abs(vx2)) * vx1;
+
+            vx2final = vx1;
+            //  }
+            // else
+            //{
+            //  vx1final = vx2;
+            //  vx2final = -vx1;
+            //}
+            double vy1final = vy1;
+            double vy2final = vy2;
+            double vx1f = vx1final * cos - vy1final * sin;
+            // double vx1f = vx1final * c - vx1final * s;
+            double vy1f = vy1final * cos + vx1final * sin;
+            //double vy1f = vy1final * c - vy1final * s;
+            double vx2f = vx2final * cos - vy2final * sin;
+            double vy2f = vy2final * cos + vx2final * sin;
+
+
+            // arr[i].Left -=(int) vx1f / 20;
+            //arr[i].Top +=(int) vy1f / 20;
+            //arr[j].Top +=(int) vy2f / 20;
+            //arr[j].Left -= (int)vx2f / 20;
+
+            b1.v = Math.Sqrt(vx1f * vx1f + vy1f * vy1f);
+            b2.v = Math.Sqrt(vx2f * vx2f + vy2f * vy2f);
+            if (vx1f != 0)
+            {
+                if (vx1f < 0)
+                    b1.angle += Math.PI;
+                else
+
+                    b1.angle = Math.Atan2(vy1f, vx1f);
+            }
+            else
+                b1.angle = Math.PI / 2;//Math.PI / 2;
+
+            // b1.angle = Math.Atan2(vx2f ,vx1f);
+            // b2.angle = Math.Atan2(vy2f, vx2f);
+
+
+            if (vx2f != 0)
+            {
+                if (vx2f < 0)
+                    b2.angle += Math.PI;
+                else
+
+                    b2.angle = Math.Atan2(vy2f, vx2f);
+            }
+            else
+                b2.angle = Math.PI / 2;
+        }
+        public static void Collision2Striped2(Ball b1, int i, Ball b2, int j)
+        {
+            arr[5].BackColor = Color.Purple;
+            int dx = arrst[j].Left - arr[i].Left;
+            int dy = arrst[j].Top - arr[i].Top;
+            double dist = Math.Sqrt(dx * dx + dy * dy);
+            double angle = Math.Atan2(dy, dx);
+
+            double sin = Math.Sin(angle);
+            double cos = Math.Cos(angle);
+            double s = Math.Sin(Math.PI / 2 - angle);
+            double c = Math.Cos(Math.PI / 2 - angle);
+
+            double vx1 = b1.Delta_x() * cos + b1.Delta_y() * sin;
+            double vy1 = b1.Delta_y() * cos - b1.Delta_x() * sin;
+            // double vx2 = b2.Delta_x() * c - b2.Delta_x() * s;
+            double vx2 = b2.Delta_x() * cos + b2.Delta_y() * sin;
+            // double vy2 = b2.Delta_y() * c - b2.Delta_y() * s;
+            double vy2 = b2.Delta_y() * cos - b2.Delta_x() * sin;
+            //double vx2 = b2.Delta_x() * Math.Cos(0.5 * Math.PI - angle) - b2.Delta_x() * Math.Sin(0.5 * Math.PI - angle);
+            //double vy2 = b2.Delta_y() * Math.Cos(0.5*Math.PI -angle) - b2.Delta_y() * Math.Sin(0.5 * Math.PI - angle);
+            double vx1final, vx2final;
+            ///* if (vx1 != 0 && vx2 != 0)
+            //{
+            vx1final = vx2;//(vx1 / Math.Abs(vx1)) * vx2;
+
+            //vx2final = (vx1final / Math.Abs(vx1final)) * vx1;//-(vx2 / Math.Abs(vx2)) * vx1;
+
+            vx2final = vx1;
+            //  }
+            // else
+            //{
+            //  vx1final = vx2;
+            //  vx2final = -vx1;
+            //}
+            double vy1final = vy1;
+            double vy2final = vy2;
+            double vx1f = vx1final * cos - vy1final * sin;
+            // double vx1f = vx1final * c - vx1final * s;
+            double vy1f = vy1final * cos + vx1final * sin;
+            //double vy1f = vy1final * c - vy1final * s;
+            double vx2f = vx2final * cos - vy2final * sin;
+            double vy2f = vy2final * cos + vx2final * sin;
+
+
+            // arr[i].Left -=(int) vx1f / 20;
+            //arr[i].Top +=(int) vy1f / 20;
+            //arr[j].Top +=(int) vy2f / 20;
+            //arr[j].Left -= (int)vx2f / 20;
+
+            b1.v = Math.Sqrt(vx1f * vx1f + vy1f * vy1f);
+            b2.v = Math.Sqrt(vx2f * vx2f + vy2f * vy2f);
+            if (vx1f != 0)
+            {
+                if (vx1f < 0)
+                    b1.angle += Math.PI;
+                else
+
+                    b1.angle = Math.Atan2(vy1f, vx1f);
+            }
+            else
+                b1.angle = Math.PI / 2;//Math.PI / 2;
+
+            // b1.angle = Math.Atan2(vx2f ,vx1f);
+            // b2.angle = Math.Atan2(vy2f, vx2f);
+
+
+            if (vx2f != 0)
+            {
+                if (vx2f < 0)
+                    b2.angle += Math.PI;
+                else
+
+                    b2.angle = Math.Atan2(vy2f, vx2f);
+            }
+            else
+                b2.angle = Math.PI / 2;
+        }
+
+        public static void Collision2Striped3(Ball b1, int i, Ball b2, int j)
+        {
+
+            int dx = arr[j].Left - arrst[i].Left;
+            int dy = arr[j].Top - arrst[i].Top;
+            double dist = Math.Sqrt(dx * dx + dy * dy);
+            double angle = Math.Atan2(dy, dx);
+
+            double sin = Math.Sin(angle);
+            double cos = Math.Cos(angle);
+            double s = Math.Sin(Math.PI / 2 - angle);
+            double c = Math.Cos(Math.PI / 2 - angle);
+
+            double vx1 = b1.Delta_x() * cos + b1.Delta_y() * sin;
+            double vy1 = b1.Delta_y() * cos - b1.Delta_x() * sin;
+            // double vx2 = b2.Delta_x() * c - b2.Delta_x() * s;
+            double vx2 = b2.Delta_x() * cos + b2.Delta_y() * sin;
+            // double vy2 = b2.Delta_y() * c - b2.Delta_y() * s;
+            double vy2 = b2.Delta_y() * cos - b2.Delta_x() * sin;
+            //double vx2 = b2.Delta_x() * Math.Cos(0.5 * Math.PI - angle) - b2.Delta_x() * Math.Sin(0.5 * Math.PI - angle);
+            //double vy2 = b2.Delta_y() * Math.Cos(0.5*Math.PI -angle) - b2.Delta_y() * Math.Sin(0.5 * Math.PI - angle);
+            double vx1final, vx2final;
+            ///* if (vx1 != 0 && vx2 != 0)
+            //{
+            vx1final = vx2;//(vx1 / Math.Abs(vx1)) * vx2;
+
+            //vx2final = (vx1final / Math.Abs(vx1final)) * vx1;//-(vx2 / Math.Abs(vx2)) * vx1;
+
+            vx2final = vx1;
+            //  }
+            // else
+            //{
+            //  vx1final = vx2;
+            //  vx2final = -vx1;
+            //}
+            double vy1final = vy1;
+            double vy2final = vy2;
+            double vx1f = vx1final * cos - vy1final * sin;
+            // double vx1f = vx1final * c - vx1final * s;
+            double vy1f = vy1final * cos + vx1final * sin;
+            //double vy1f = vy1final * c - vy1final * s;
+            double vx2f = vx2final * cos - vy2final * sin;
+            double vy2f = vy2final * cos + vx2final * sin;
+
+
+            // arr[i].Left -=(int) vx1f / 20;
+            //arr[i].Top +=(int) vy1f / 20;
+            //arr[j].Top +=(int) vy2f / 20;
+            //arr[j].Left -= (int)vx2f / 20;
+
+            b1.v = Math.Sqrt(vx1f * vx1f + vy1f * vy1f);
+            b2.v = Math.Sqrt(vx2f * vx2f + vy2f * vy2f);
+            if (vx1f != 0)
+            {
+                if (vx1f < 0)
+                    b1.angle += Math.PI;
+                else
+
+                    b1.angle = Math.Atan2(vy1f, vx1f);
+            }
+            else
+                b1.angle = Math.PI / 2;//Math.PI / 2;
+
+            // b1.angle = Math.Atan2(vx2f ,vx1f);
+            // b2.angle = Math.Atan2(vy2f, vx2f);
+
+
+            if (vx2f != 0)
+            {
+                if (vx2f < 0)
+                    b2.angle += Math.PI;
+                else
+
+                    b2.angle = Math.Atan2(vy2f, vx2f);
+            }
+            else
+                b2.angle = Math.PI / 2;
+        }
         public int FindBallIndex(Ball b)
         {
             for (int i = 0; i < 8; i++)
@@ -299,80 +571,8 @@ namespace snookerFormdemo
         }
         private void balltmr_Tick(object sender, EventArgs e)
         {
-          
-            //ball.Left < 60 || ball.Right > 1560 || ball.Top < 40 || ball.Bottom > 660
-            if (ball.Left < left || ball.Right > right || ball.Top < top || ball.Bottom > bottom)
-            {
-                if (ball.Bounds.IntersectsWith(p1.Bounds) || ball.Bounds.IntersectsWith(p2.Bounds) || ball.Bounds.IntersectsWith(p3.Bounds) ||
-                    ball.Bounds.IntersectsWith(p4.Bounds) || ball.Bounds.IntersectsWith(p5.Bounds) || ball.Bounds.IntersectsWith(p6.Bounds))
-                {
-                    ball.Hide();
-                }
-                else
-                {
-                    //ballObj.v = ballObj.v * -1;
-                    if (ballObj.angle != 0 && ballObj.angle != Math.PI)
-                        ballObj.angle = (-0.5 * Math.PI + ballObj.angle);
-                    else
-                        ballObj.angle = ballObj.angle + Math.PI;
-                }
-            }
-            // double dis = Math.Pow(ballObj.v, 2) / 20 * k;
-            // double t =  dis * 2 / ballObj.v;
-            // balltmr.Interval =(int)( Math.Abs( t));
 
-
-           ;
-            ball.Left += (int)(ballObj.v * Math.Cos(ballObj.angle) / 10);
-            ball.Top -= (int)(ballObj.v * Math.Sin(ballObj.angle) / 10);
-
-            //  while (Math.Abs(ballObj.v) > 0.02)
-            //{
-            //  if (ballObj.v < 0) 
-            //    ballObj.v += Math.Abs(9.81 * k);
-            //else
-            //  {
-            //    ballObj.v -= Math.Abs(9.81 * k);
-            //  Console.WriteLine(ballObj.v);
-
-
-            if (ballObj.v > 0)
-            {
-                ballObj.v -= 9.81 * k;
-                if (ballObj.v <= 0)
-                    ballObj.v = 0;
-            }
-
-            else if (ballObj.v < 0)
-            {
-                ballObj.v += 9.81 * k;
-                if (ballObj.v >= 0)
-                    ballObj.v = 0;
-            }
-            else
-            {
-                ballObj.v = 0;
-
-            }
-
-
-
-
-            for (int i = 1; i < 8; i++)
-            {
-                if (ball.Bounds.IntersectsWith(arr[i].Bounds))
-                {
-                   /// ball.Controls.Add(arr[i]);
-                    //arr[i].Location = new Point(0, 0);
-                   
-                   arr[i].BackColor = Color.Transparent;
-                    so.Play();
-                    Collision2(ballObj, 0, ballArr[i], i);
-                   // Collision(ballObj, 0, ballArr[i], i);
-
-                    tmrArr[i].Start();
-                }
-            }
+            general.generalTmrFun(0);
 
         }
         private double ToRadians(double a)
@@ -390,7 +590,7 @@ namespace snookerFormdemo
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             Boolean f=true;
-          //  player = true;
+            player = true;
             ball5.BackColor = Color.Transparent;
 
             Pen blackPen = new Pen(Color.Black, 3);
@@ -686,59 +886,7 @@ namespace snookerFormdemo
 
         private void ball2tmr_Tick(object sender, EventArgs e)
         {
-
-            if (ball2.Left < left || ball2.Right > right || ball2.Top < top || ball2.Bottom > bottom)
-            {
-
-                if (ball2.Bounds.IntersectsWith(p1.Bounds) || ball2.Bounds.IntersectsWith(p2.Bounds) || ball2.Bounds.IntersectsWith(p3.Bounds) ||
-                    ball2.Bounds.IntersectsWith(p4.Bounds) || ball2.Bounds.IntersectsWith(p5.Bounds) || ball2.Bounds.IntersectsWith(p6.Bounds))
-                {
-                    ball2.Hide();
-                }
-                else
-                {
-                    if (ball2Obj.angle != 0 && ball2Obj.angle != Math.PI)
-                        ball2Obj.angle = (-0.5 * Math.PI + ball2Obj.angle);
-                    else
-                        ball2Obj.angle = ball2Obj.angle + Math.PI;
-                }
-            }
-            ball2.Left += (int)(ball2Obj.v * Math.Cos(ball2Obj.angle) / 10);
-            ball2.Top -= (int)(ball2Obj.v * Math.Sin(ball2Obj.angle) / 10);
-            // while (ball2Obj.v > 0)
-            //   ball2Obj.v -= Math.Abs(9.81 * k);
-            if (ball2Obj.v > 0)
-            {
-                ball2Obj.v -= 9.81 * k;
-                if (ball2Obj.v <= 0)
-                    ball2Obj.v = 0;
-            }
-
-            else if (ball2Obj.v < 0)
-            {
-                ball2Obj.v += 9.81 * k;
-                if (ball2Obj.v >= 0)
-                    ball2Obj.v = 0;
-            }
-            else
-            {
-                ball2Obj.v = 0;
-
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != 1)
-                {
-                    if (ball2.Bounds.IntersectsWith(arr[i].Bounds))
-                    {
-                        so.Play();
-                        Collision2(ball2Obj, 1, ballArr[i], i);
-                       // Collision(ball2Obj, 1, ballArr[i], i);
-
-                        tmrArr[i].Start();
-                    }
-                }
-            }
+            general.generalTmrFun(1);
 
         }
 
@@ -799,9 +947,9 @@ namespace snookerFormdemo
 
             for (int i = 0; i < 8; i++)
             {
-                if (i != 2)
-                {
-                    if (ball3.Bounds.IntersectsWith(arr[i].Bounds))
+               
+                
+                    if (ball3.Bounds.IntersectsWith(arr[i].Bounds)&&i!=2)
                     {
                         
 
@@ -811,7 +959,13 @@ namespace snookerFormdemo
 
                         tmrArr[i].Start();
                     }
-                }
+                    else if(i!=7&& ball3.Bounds.IntersectsWith(arrst[i].Bounds)){
+                        so.Play();
+                        Collision2Striped2(ball3Obj, 2, striped[i], i);
+                        //Collision(ball3Obj, 2, ballArr[i], i);
+                        tmrArr[i+8].Start();
+                    }
+                
             }
             /* if (!ball3.Visible)
              {
@@ -843,119 +997,14 @@ namespace snookerFormdemo
 
         private void ball4tmr_Tick(object sender, EventArgs e)
         {
-            if (ball4.Left < left || ball4.Right >right || ball4.Top < top || ball4.Bottom >bottom)
-            {
-
-                if (ball4.Bounds.IntersectsWith(p1.Bounds) || ball4.Bounds.IntersectsWith(p2.Bounds) || ball4.Bounds.IntersectsWith(p3.Bounds) ||
-                    ball4.Bounds.IntersectsWith(p4.Bounds) || ball4.Bounds.IntersectsWith(p5.Bounds) || ball4.Bounds.IntersectsWith(p6.Bounds))
-                {
-                    ball4.Hide();
-                }
-                else
-                {
-                    if (ball4Obj.angle != 0 && ball4Obj.angle != Math.PI)
-                        ball4Obj.angle = (-0.5 * Math.PI + ball4Obj.angle);
-                    else
-                        ball4Obj.angle = ball4Obj.angle + Math.PI;
-                }
-            }
-            ball4.Left += (int)(ball4Obj.v * Math.Cos(ball4Obj.angle) / 10);
-            ball4.Top -= (int)(ball4Obj.v * Math.Sin(ball4Obj.angle) / 10);
-            //  while (ball4Obj.v > 0)
-            //    ball4Obj.v -= Math.Abs(9.81  * k);
-            if (ball4Obj.v > 0)
-            {
-                ball4Obj.v -= 9.81 * k;
-                if (ball4Obj.v <= 0)
-                    ball4Obj.v = 0;
-            }
-
-            else if (ball4Obj.v < 0)
-            {
-                ball4Obj.v += 9.81 * k;
-                if (ball4Obj.v >= 0)
-                    ball4Obj.v = 0;
-            }
-            else
-            {
-                ball4Obj.v = 0;
-
-            }
-
-
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != 3)
-                {
-                    if (ball4.Bounds.IntersectsWith(arr[i].Bounds))
-                    {
-                        so.Play();
-                        Collision2(ball4Obj, 3, ballArr[i], i);
-                        //Collision(ball4Obj, 3, ballArr[i], i);
-                        tmrArr[i].Start();
-                    }
-                }
-            }
+            general.generalTmrFun(3);
 
         }
 
         private void ball5tmr_Tick(object sender, EventArgs e)
         {
-            if (ball5.Left < left || ball5.Right > right || ball5.Top < top || ball5.Bottom > bottom)
-            {
 
-                if (ball5.Bounds.IntersectsWith(p1.Bounds) || ball5.Bounds.IntersectsWith(p2.Bounds) || ball5.Bounds.IntersectsWith(p3.Bounds) ||
-                    ball5.Bounds.IntersectsWith(p4.Bounds) || ball5.Bounds.IntersectsWith(p5.Bounds) || ball5.Bounds.IntersectsWith(p6.Bounds))
-                {
-                    ball5.Hide();
-                }
-                else{
-                    if (ball5Obj.angle != 0 && ball5Obj.angle != Math.PI)
-                        ball5Obj.angle = (-0.5 * Math.PI + ball5Obj.angle);
-                    else
-                        ball5Obj.angle = ball5Obj.angle + Math.PI;
-                }
-            }
-            ball5.Left += (int)(ball5Obj.v * Math.Cos(ball5Obj.angle) / 10);
-            ball5.Top -= (int)(ball5Obj.v * Math.Sin(ball5Obj.angle) / 10);
-            //  while (ball5Obj.v > 0)
-            //    ball5Obj.v -= Math.Abs(9.81  * k);
-            if (ball5Obj.v > 0)
-            {
-                ball5Obj.v -= 9.81 * k;
-                if (ball5Obj.v <= 0)
-                    ball5Obj.v = 0;
-            }
-
-            else if (ball5Obj.v < 0)
-            {
-                ball5Obj.v += 9.81 * k;
-                if (ball5Obj.v >= 0)
-                    ball5Obj.v = 0;
-            }
-            else
-            {
-                ball5Obj.v = 0;
-
-            }
-
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != 4)
-                {
-                    if (ball5.Bounds.IntersectsWith(arr[i].Bounds))
-                    {
-                        so.Play();
-                        Collision2(ball5Obj, 4, ballArr[i], i);
-
-                       // Collision(ball5Obj, 4, ballArr[i], i);
-
-                        tmrArr[i].Start();
-                    }
-                }
-            }
-          
-
+            general.generalTmrFun(4);
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -996,59 +1045,7 @@ namespace snookerFormdemo
 
         private void ball6tmr_Tick(object sender, EventArgs e)
         {
-            if (ball6.Left < left || ball6.Right > right || ball6.Top < top || ball6.Bottom > bottom)
-            {
-
-                if (ball6.Bounds.IntersectsWith(p1.Bounds) || ball6.Bounds.IntersectsWith(p2.Bounds) || ball6.Bounds.IntersectsWith(p3.Bounds) ||
-                    ball6.Bounds.IntersectsWith(p4.Bounds) || ball6.Bounds.IntersectsWith(p5.Bounds) || ball6.Bounds.IntersectsWith(p6.Bounds))
-                {
-                    ball6.Hide();
-                }
-                else
-                {
-                    if (ball6Obj.angle != 0 && ball6Obj.angle != Math.PI)
-                        ball6Obj.angle = (-0.5 * Math.PI + ball6Obj.angle);
-                    else
-                        ball6Obj.angle = ball6Obj.angle + Math.PI;
-                }
-            }
-            ball6.Left += (int)(ball6Obj.v * Math.Cos(ball6Obj.angle) / 10);
-            ball6.Top -= (int)(ball6Obj.v * Math.Sin(ball6Obj.angle) / 10);
-            //   while (ball6Obj.v > 0)
-            //     ball6Obj.v -= Math.Abs(9.81 * k);
-            if (ball6Obj.v > 0)
-            {
-                ball6Obj.v -= 9.81 * k;
-                if (ball6Obj.v <= 0)
-                    ball6Obj.v = 0;
-            }
-
-            else if (ball6Obj.v < 0)
-            {
-                ball6Obj.v += 9.81 * k;
-                if (ball6Obj.v >= 0)
-                    ball6Obj.v = 0;
-            }
-            else
-            {
-                ball6Obj.v = 0;
-
-            }
-
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != 5)
-                {
-                    if (ball6.Bounds.IntersectsWith(arr[i].Bounds))
-                    {
-                        so.Play();
-                        Collision2(ball6Obj, 5, ballArr[i], i);
-                        //Collision(ball6Obj, 5, ballArr[i], i);
-
-                        tmrArr[i].Start();
-                    }
-                }
-            }
+            general.generalTmrFun(5);
         }
 
         private void ball2_Click(object sender, EventArgs e)
@@ -1068,117 +1065,49 @@ namespace snookerFormdemo
 
         private void ball7tmr_Tick(object sender, EventArgs e)
         {
-            if (ball7.Left < left || ball7.Right > right || ball7.Top < top || ball7.Bottom > bottom)
-            {
-
-                if (ball7.Bounds.IntersectsWith(p1.Bounds) || ball7.Bounds.IntersectsWith(p2.Bounds) || ball7.Bounds.IntersectsWith(p3.Bounds) ||
-                    ball7.Bounds.IntersectsWith(p4.Bounds) || ball7.Bounds.IntersectsWith(p5.Bounds) || ball7.Bounds.IntersectsWith(p6.Bounds))
-                {
-                    ball7.Hide();
-                }
-                else
-                {
-                    if (ball7Obj.angle != 0 && ball7Obj.angle != Math.PI)
-                        ball7Obj.angle = (-0.5 * Math.PI + ball7Obj.angle);
-                    else
-                        ball7Obj.angle = ball7Obj.angle + Math.PI;
-                }
-            }
-            ball7.Left += (int)(ball7Obj.v * Math.Cos(ball7Obj.angle) / 10);
-            ball7.Top -= (int)(ball7Obj.v * Math.Sin(ball7Obj.angle) / 10);
-            //   while (ball7Obj.v > 0)
-            //     ball7Obj.v -= Math.Abs(9.81 * k);
-            if (ball7Obj.v > 0)
-            {
-                ball7Obj.v -= 9.81 * k;
-                if (ball7Obj.v <= 0)
-                    ball7Obj.v = 0;
-            }
-
-            else if (ball7Obj.v < 0)
-            {
-                ball7Obj.v += 9.81 * k;
-                if (ball7Obj.v >= 0)
-                    ball7Obj.v = 0;
-            }
-            else
-            {
-                ball7Obj.v = 0;
-
-            }
-
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != 6)
-                {
-                    if (ball7.Bounds.IntersectsWith(arr[i].Bounds))
-                    {
-                        so.Play();
-                        Collision2(ball7Obj, 6, ballArr[i], i);
-                       // Collision(ball7Obj, 6, ballArr[i], i);
-
-                        tmrArr[i].Start();
-                    }
-                }
-            }
+            general.generalTmrFun(6);
         }
 
         private void ball8tmr_Tick(object sender, EventArgs e)
         {
-
-             if (ball8.Left < left || ball8.Right > right || ball8.Top < top || ball8.Bottom > bottom)
-            {
-
-                if (ball8.Bounds.IntersectsWith(p1.Bounds) || ball8.Bounds.IntersectsWith(p2.Bounds) || ball8.Bounds.IntersectsWith(p3.Bounds) ||
-                    ball8.Bounds.IntersectsWith(p4.Bounds) || ball8.Bounds.IntersectsWith(p5.Bounds) || ball8.Bounds.IntersectsWith(p6.Bounds))
-                {
-                    ball8.Hide();
-                }
-                else
-                {
-                    if (ball8Obj.angle != 0 && ball8Obj.angle != Math.PI)
-                        ball8Obj.angle = (-0.5 * Math.PI + ball8Obj.angle);
-                    else
-                        ball8Obj.angle = ball8Obj.angle + Math.PI;
-                }
-            }
-            ball8.Left += (int)(ball8Obj.v * Math.Cos(ball8Obj.angle) / 10);
-            ball8.Top -= (int)(ball8Obj.v * Math.Sin(ball8Obj.angle) / 10);
-            //   while (Math.Abs(ball8Obj.v) > 0)
-            //     ball8Obj.v -= Math.Abs(9.81  * k);
-            if (ball8Obj.v > 0)
-            {
-                ball8Obj.v -= 9.81 * k;
-                if (ball8Obj.v <= 0)
-                    ball8Obj.v = 0;
-            }
-
-            else if (ball8Obj.v < 0)
-            {
-                ball8Obj.v += 9.81 * k;
-                if (ball8Obj.v >= 0)
-                    ball8Obj.v = 0;
-            }
-            else
-            {
-                ball8Obj.v = 0;
-
-            }
-            for (int i = 0; i < 8; i++)
-            {
-                if (i != 7)
-                {
-                    if (ball8.Bounds.IntersectsWith(arr[i].Bounds))
-                    {
-                        so.Play();
-                        Collision2(ball8Obj, 7, ballArr[i], i);
-                        //  Collision(ball8Obj, 7, ballArr[i], i);
-
-                        tmrArr[i].Start();
-                    }
-                }
-            }
+            general.generalTmrFun(7);
         }
+
+        private void ball9tmr_Tick(object sender, EventArgs e)
+        {
+            general.generalTmrFunStriped(0);
+        }
+
+        private void ball10tmr_Tick(object sender, EventArgs e)
+        {
+            general.generalTmrFunStriped(1);
+        }
+
+
+        private void ball11tmr_Tick(object sender, EventArgs e)
+        {
+            general.generalTmrFunStriped(2);
+        }
+        private void ball12tmr_Tick(object sender, EventArgs e)
+        {
+            general.generalTmrFunStriped(3);
+        }
+        private void ball13tmr_Tick(object sender, EventArgs e)
+        {
+            general.generalTmrFunStriped(4);
+        }
+
+        private void ball14tmr_Tick(object sender, EventArgs e)
+        {
+            general.generalTmrFunStriped(5);
+        }
+
+        private void ball15tmr_Tick(object sender, EventArgs e)
+        {
+            general.generalTmrFunStriped(6);
+        }
+
+       
 
         private void pictureBox2_Click(object sender, EventArgs e)
         {
