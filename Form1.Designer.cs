@@ -184,6 +184,7 @@ namespace snookerFormdemo
             this.ball5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ball5.TabIndex = 7;
             this.ball5.TabStop = false;
+            this.ball5.Click += new System.EventHandler(this.ball5_Click);
             // 
             // ball8
             // 
@@ -258,7 +259,7 @@ namespace snookerFormdemo
             // 
             this.trb.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.trb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.trb.Location = new System.Drawing.Point(220, 295);
+            this.trb.Location = new System.Drawing.Point(90, 144);
             this.trb.Maximum = 360;
             this.trb.Name = "trb";
             this.trb.Size = new System.Drawing.Size(327, 56);
