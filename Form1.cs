@@ -132,7 +132,7 @@ namespace snookerFormdemo
                 {
                     /* if (angleBetweenBalls(i,2) - angleBetweenBalls((int)closeFromHole()[1],i) >= 0 &&
                          angleBetweenBalls(i, 2) - angleBetweenBalls((int)closeFromHole()[1], i) <= 3)*/
-                    if (isInTolerance(Math.Abs(angleBetweenBalls(i, 2)-(int)(angleBetweenBalls((int)closeFromHole()[1], i) )), 0))
+                    if (isInTolerance(Math.Abs(angleBetweenBalls(i, 2)-(int)(angleBetweenBalls((int)closeFromHole()[1], i) )), 0.2))
                     {
                         ball7.BackColor = Color.Black;
                         if (disFromHole(arr[i], holes[h]) < disFromHole(arr[2], holes[h]) && isOnLine((int)closeFromHole()[2], i, ball3.Left, ball3.Top))
@@ -198,7 +198,7 @@ namespace snookerFormdemo
         public Boolean isAngleToHole(int b, int h)
         {
             return (isInTolerance(Math.Abs(Math.Atan2( (holes[h].Top - arr[b].Top),(holes[h].Left - arr[b].Left))+Math.PI -
-                Math.Atan2((-arr[b].Top + ball3.Top), (-arr[b].Left+ ball3.Left))+Math.PI),5));
+                Math.Atan2((-arr[b].Top + ball3.Top), (-arr[b].Left+ ball3.Left))+Math.PI),3));
         }
         public Boolean isOnLine( int b1, int b2, int x, int y)
         {
@@ -265,7 +265,7 @@ namespace snookerFormdemo
                     b1.angle += Math.PI;
                 else
 
-                    b1.angle = Math.Atan(vy1f / vx1f);
+                    b1.angle = Math.Atan2(vy1f ,vx1f);
             }
             else
                 b1.angle = Math.PI / 2;//Math.PI / 2;
@@ -280,7 +280,7 @@ namespace snookerFormdemo
                     b2.angle += Math.PI;
                 else
 
-                    b2.angle = Math.Atan(vy2f / vx2f);
+                    b2.angle = Math.Atan2(vy2f ,vx2f);
             }
             else
                 b2.angle = Math.PI / 2;
@@ -389,60 +389,89 @@ namespace snookerFormdemo
         }
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            Boolean f=true;
+          //  player = true;
+            ball5.BackColor = Color.Transparent;
+
             Pen blackPen = new Pen(Color.Black, 3);
             if (ball3Obj.v == 0)
             {
                 // Create pen.
 
-
+               
                 // Create points that define line.
                 if (!player)
 
                 {
-                    if (isAngleToHole((int)(closeFromHole()[1]), (int)(closeFromHole()[2]))
-                        && closeFromHole()[1]!=2&&!ballsInTheWay((int)(closeFromHole()[2]), (int)(closeFromHole()[1])))
-                        //&&isOnLine((int)(closeFromHole()[2]),(int)(closeFromHole()[1]),ball3.Left,ball3.Top))
-                    {
-                        //האם הזווית בין הקרוב לחור לחור שווה לזווית בין הכדור הלבן לכדור הקרוב לחור
-                        arr[(int)(closeFromHole()[1])].BackColor = Color.Brown;
-                        PointF point1 = new PointF((float)(ball3.Left + 13), (float)(ball3.Top + 13));
-                        PointF point2 = new PointF((float)(arr[(int)closeFromHole()[1]].Left), (float)(arr[(int)closeFromHole()[1]].Top));
-                        e.Graphics.DrawLine(blackPen, point1, point2);
-                        ball3Obj.angle = -Math.Atan2(point2.Y - point1.Y, point2.X - point1.X); //angleBetweenBalls(2, (int)closeFromHole()[1])+Math.PI;
-                        ball3Obj.v = 200;
-                        ball3tmr.Start();
-                       // arr[(int)(closeFromHole()[1])].BackColor = Color.Transparent;
 
-                    }
-                    else
+                    for (int i = 0; i < 8; i++)
                     {
-                        for(int i=0; i<8; i++)
+                        if (isAngleToHole((int)(closeFromHole()[1]), (int)(closeFromHole()[2]))
+                            && closeFromHole()[1] != 2 && !ballsInTheWay((int)(closeFromHole()[2]), (int)(closeFromHole()[1])))
+                           // && isOnLine((int)(closeFromHole()[2]), (int)(closeFromHole()[1]), ball3.Left, ball3.Top))
+
                         {
-                            if(i != 2){
-                                if (closeFromHole()[3] == angleBetweenBalls((int)(closeFromHole()[1]),i))
-                                {
-                                    //האם הזווית בין הקרוב לחור לאחד הכדורים שוה לזווית בין הקרוב לחור לחור
-                                    if(angleBetweenBalls(i,2) == angleBetweenBalls((int)(closeFromHole()[1]), i)
-                                        && isOnLine((int)(closeFromHole()[2]), (int)(closeFromHole()[1]), ball3.Left, ball3.Top))
-                                    
-                                    {
-                                        //האם בין הלבן גם שווה
-                                        ball4.BackColor = Color.Yellow;
-                                        PointF point1 = new PointF((float)(ball3.Left + 13), (float)(ball3.Top + 13));
-                                        PointF point2 = new PointF((float)(arr[i].Left), (float)(arr[i].Top));
-                                        e.Graphics.DrawLine(blackPen, point1, point2);
-                                        ball3Obj.angle = angleBetweenBalls(2,i);
-                                        ball3Obj.v = 100;
-                                        ball3tmr.Start();
-                                      
-                                  
-                                    }
-                                    //לנסות להמשיך לעבור על הכדורים לפי מי שהכי קרוב ואז זה שאחריו וכו ולבדוק האם התנאי מתקיים
+                            //האם הזווית בין הקרוב לחור לחור שווה לזווית בין הכדור הלבן לכדור הקרוב לחור
+                            arr[(int)(closeFromHole()[1])].BackColor = Color.Brown;
+                            PointF point1 = new PointF((float)(ball3.Left + 13), (float)(ball3.Top + 13));
+                            PointF point2 = new PointF((float)(arr[(int)closeFromHole()[1]].Left), (float)(arr[(int)closeFromHole()[1]].Top));
+                            e.Graphics.DrawLine(blackPen, point1, point2);
+                            ball3Obj.angle = -Math.Atan2(point2.Y - point1.Y, point2.X - point1.X); //angleBetweenBalls(2, (int)closeFromHole()[1])+Math.PI;
+                            ball3Obj.v = 200;
+                            ball3tmr.Start();
+                            arr[(int)(closeFromHole()[1])].BackColor = Color.Transparent;
+                            // arr[(int)(closeFromHole()[1])].BackColor = Color.Transparent;
 
-                                }
-                            }
+                        }
+                        else
+                        {
+                            dis[(int)(closeFromHole()[1]), (int)(closeFromHole()[2])] = 100000;
                         }
                     }
+                    ball5.BackColor = Color.Blue;
+                    updateDisArray();
+                  
+                        
+                            for (int i = 0; i < 8; i++)
+                            {
+                                if (i != 2)
+                                {
+                                    if (closeFromHole()[3] == angleBetweenBalls((int)(closeFromHole()[1]), i))
+                                    {
+                                         ball6.BackColor = Color.Azure;
+                                        //האם הזווית בין הקרוב לחור לאחד הכדורים שוה לזווית בין הקרוב לחור לחור
+                                        if (angleBetweenBalls(i, 2) == angleBetweenBalls((int)(closeFromHole()[1]), i)
+                                            && isOnLine((int)(closeFromHole()[2]), (int)(closeFromHole()[1]), ball3.Left, ball3.Top))
+
+                                        {
+                                            //האם בין הלבן גם שווה
+                                            ball4.BackColor = Color.Yellow;
+                                            PointF point1 = new PointF((float)(ball3.Left + 13), (float)(ball3.Top + 13));
+                                            PointF point2 = new PointF((float)(arr[i].Left), (float)(arr[i].Top));
+                                            e.Graphics.DrawLine(blackPen, point1, point2);
+                                            ball3Obj.angle = angleBetweenBalls(2, i);
+                                            ball3Obj.v = 100;
+                                            ball3tmr.Start();
+                                            f = false;
+                                        updateDisArray();
+
+
+                                        }
+                                  
+                                        
+                                        //לנסות להמשיך לעבור על הכדורים לפי מי שהכי קרוב ואז זה שאחריו וכו ולבדוק האם התנאי מתקיים
+
+                                    
+                                
+                            }
+                        }
+                              
+                        
+                            dis[(int)(closeFromHole()[1]), (int)(closeFromHole()[2])] = 100000;
+                        
+                    }
+
+
                     //double min = dis[0,0];
                     /* for (int i = 0; i < 8; i++)
                      {
@@ -469,12 +498,13 @@ namespace snookerFormdemo
 
                                      }
 
-                                     // player = true;
+                                // player = true;
                                  }
 
                              }*/
                  
                     x = ball3.Left;
+                  //  player = true;
                    // flag = true;
 
                 }
